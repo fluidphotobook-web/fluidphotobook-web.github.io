@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'Exposure80Italic';
   src:
-    url('../srcs/font/font.woff2') format('woff2'),
-    url('../srcs/font/font.otf') format('opentype');
+    url('https://fluidphotobook-web.github.io/srcs/fonts/font.woff2') format('woff2'),
+    url('https://fluidphotobook-web.github.io/srcs/fonts/font.woff2') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
