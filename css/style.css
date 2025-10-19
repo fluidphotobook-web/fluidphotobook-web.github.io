@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'Exposure80Italic';
   src:
-    url('font.woff2') format('woff2'),
-    url('font.otf') format('opentype');
+    url('../srcs/font/font.woff2') format('woff2'),
+    url('../srcs/font/font.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
