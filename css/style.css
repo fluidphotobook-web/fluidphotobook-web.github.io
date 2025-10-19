@@ -1,6 +1,6 @@
 /* 1) Title font: 205TF Exposure [-80] Italic */
 @font-face {
-  font-family: "Exposure80Italic";
+  font-family: "Exposure";
   src: url("Exposure.otf") format("opentype");
   font-weight: 400;
   font-style: italic;
@@ -55,8 +55,7 @@ body::-webkit-scrollbar {
 .logo {
   /* position: fixed; top: 40px; left: 60px; -> #logo로 이동 */
   margin: 0;
-  font-family:
-    Exposure80Italic,
+  font-family: "Exposure",
     ui-sans-serif,
     system-ui,
     -apple-system,
