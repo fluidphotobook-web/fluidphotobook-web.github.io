@@ -1,0 +1,305 @@
+/* 1) Title font: 205TF Exposure [-80] Italic */
+@font-face {
+  font-family: "Exposure80Italic";
+  src: url("../srcs/fonts/205TF-Exposure-[-80]Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --black: #000000;
+  --gray50: #808080; /* 50% gray for hover */
+  --dividerX: 25vw; /* vertical dotted limit at 35% */
+}
+a {
+  color: black;
+  text-decoration: none;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #ffffff;
+  color: var(--black);
+  overflow-y: scroll; /* 스크롤 가능하도록 설정 (휠 이벤트 감지용) */
+}
+
+/* 스크롤바 숨기기 (IE/Edge/Firefox/Chrome/Safari 호환) */
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Layout anchors */
+.wrap {
+  position: relative;
+  height: 100vh;
+  overflow: hidden; /* hide any accidental overflow */
+  z-index: 100;
+}
+
+/* **수정:** #logo (a 태그)에 z-index 부여 및 고정 위치 설정 */
+#logo {
+  position: fixed;
+  top: 40px;
+  left: 60px;
+  z-index: 1000; /* .logo(h1)보다 높은 값으로 클릭 영역 확보 */
+}
+
+/* 1) Big title top-left */
+.logo {
+  /* position: fixed; top: 40px; left: 60px; -> #logo로 이동 */
+  margin: 0;
+  font-family:
+    Exposure80Italic,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  font-size: 104px; /* based on 1366×900 artboard */
+  line-height: 0.9;
+  letter-spacing: 0;
+  user-select: none;
+  /* **수정:** pointer-events: none; 제거하여 클릭 허용 */
+  z-index: 999; /* #logo 아래에 배치되어도 괜찮음 (클릭은 #logo가 처리) */
+}
+
+/* 2) Left vertical menu (bottom-left alignment) */
+.menu {
+  position: fixed;
+  left: 48px;
+  bottom: 42px;
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* stacked tightly like in the mock */
+    font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 16px; /* 12pt ≈ 16px */
+  line-height: 33px; /* 25pt ≈ 33px */
+  text-align: left;
+}
+.menu a {
+  color: black;
+  text-decoration: none;
+}
+.menu a:hover {
+  text-decoration: underline;
+}
+
+/* 3) Vertical dotted divider at 35% from the left */
+.divider {
+position: fixed;
+  left: var(--dividerX);
+  height: 92vh; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  width: 0; /* visual only */
+  pointer-events: none;
+  background: none; /* 기존 background: none; 속성 유지 */
+}
+/* create dots using a pseudo element for crispness */
+.divider::after {
+content: "";
+  position: absolute;
+  left: -1px; /* center the stroke */
+  top: 0;
+  height: 100%; /* 부모 .divider의 80vh 높이를 따라감 */
+  width: 0;
+  border-right: 1px solid #000;
+  opacity: 0.6;
+}
+
+/* 3) Horizontal scroll-strip for issue thumbnails */
+.strip {
+  position: fixed;
+  left: var(--dividerX);
+  top: 0;
+  height: 100vh;
+  width: calc(100vw - var(--dividerX));
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center; /* vertical centering of cards */
+  gap: 7vw; /* airy spacing reminiscent of mockups */
+  padding: 0 6vw 0 6vw; /* breathing room at edges */
+  /*scroll-snap-type: x mandatory;*/
+  -webkit-overflow-scrolling: touch;
+  padding-left: 50px;
+}
+
+.card {
+  flex: 0 0 auto;
+  /* **수정:** width를 명확히 정의하여 flex 레이아웃 안정화 */
+  /* 이미지 비율에 맞추기 위해 가로 폭을 설정하고 height는 고정 */
+  /* width: 25vw; /* 뷰포트 폭의 25% 예시. */
+
+  scroll-snap-align: start;
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 80vh;
+  aspect-ratio: 1;
+}
+
+.card-last {
+  flex: 0 0 auto;
+  /* **수정:** width를 명확히 정의하여 flex 레이아웃 안정화 */
+  /* 이미지 비율에 맞추기 위해 가로 폭을 설정하고 height는 고정 */
+  /* width: 25vw; /* 뷰포트 폭의 25% 예시. */
+
+  scroll-snap-align: start;
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 80vh;
+  aspect-ratio: 0.5;
+  margin-left: 1000px;
+  margin-right: 450px;
+}
+
+/* 이미지 관련 스타일 */
+.cover-container {
+  display: flex; /* 자식 요소들을 Flex 항목으로 설정 */
+  align-items: flex-end; /* **수정: meta 텍스트가 아래에 있으므로 아래 정렬로 변경** */
+  /*gap: 20px;*/
+  /* background-color: red; /* 디버깅용으로 제거 */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative; /* **추가: img와 meta의 절대 위치를 막기 위해** */
+  margin-right: 0px;
+}
+
+/* --- 주요 수정 구간 (start) --- */
+
+/* 1. .img와 .meta가 가로로 나란히 배치되도록 명시적인 크기 지정 */
+.img {
+  position: relative; /* img 자식 요소들의 absolute 기준점으로 설정 */
+  width: 80%; /* .cover-container의 70% 차지 */
+  height: 100%;
+}
+
+.meta {
+  /* background-color: blue; /* 디버깅용으로 제거 */
+  left: -20px;
+  opacity: 1; /* opacity: 0.5 제거 */
+  width: 8%; /* .cover-container의 30% 차지 */
+  height: 100%;
+  padding-bottom: 0px; /* .meta-2 bottom 값 대체 */
+
+  /* meta 내부 span들을 세로로 쌓기 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 내용을 아래쪽으로 정렬 */
+  /* flex-shrink: 0; /* .meta가 찌그러지지 않도록 (선택 사항) */
+  margin-left: 20px;
+}
+
+/* 2. img 태그에 적용된 position: absolute; 수정 */
+.cover-container img {
+  /* position: absolute; /* **제거: Flexbox 흐름 내에 있어야 함** */
+  /* **유지: 다만 .img 내부에서 겹쳐 보이도록 .img에 relative를 줌** */
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* 수정: .img의 크기에 꽉 차도록 100% 설정 */
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 이미지 비율을 유지하며 컨테이너에 맞춤 */
+  transition: none;
+}
+
+/* 3. span 태그에 적용된 position: absolute; 수정 */
+.cover-container span {
+  /* position: absolute; /* **제거: Flexbox 흐름 내에 있어야 함** */
+  /* 폰트 Baskerville 적용 */
+  font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: left;
+  opacity: 1;
+  user-select: none;
+  /* width: 100%; /* meta 내부에서 100% 폭 차지 (선택 사항) */
+}
+
+.meta-1 {
+  /* Issue Number & Year */
+  /* bottom: 50px; /* **제거: Flexbox로 대체** */
+  margin-bottom: 4px; /* meta-2와 간격 추가 */
+}
+
+.meta-2 {
+  /* in stock (재고 상태) */
+  /* bottom: 30px; /* **제거: Flexbox와 padding-bottom으로 대체** */
+  font-style: italic;
+}
+
+/* --- 주요 수정 구간 (end) --- */
+
+.cover-container span,
+.cover-container span em {
+  color: var(--black);
+  z-index: 10;
+}
+
+.card .cover-back {
+  opacity: 0;
+}
+
+.cover-container:hover .cover-front {
+  opacity: 0;
+  cursor: pointer;
+}
+
+.cover-container:hover .cover-back {
+  opacity: 1;
+  cursor: pointer;
+}
+.soon {
+  display: block;
+font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 18px;
+  line-height: 16px;
+  text-align: left;
+  z-index: 100;
+}
+
+/* #logo z-index는 위에서 수정함 */
+/* #logo {
+  z-index: 999;
+} */
+.fluid {
+  font-style: italic;
+}
+
+.strip-about {
+position: fixed;
+  left: var(--dividerX);
+  top: 0;
+  height: 100vh;
+  width: calc(100vw - var(--dividerX));
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  align-items: flex-start; /* article을 상단에 정렬 */
+  gap: 7vw; /* airy spacing reminiscent of mockups */
+  padding: 0 6vw 0 6vw; /* breathing room at edges */
+  padding-top: 4vh; /* divider 상단과 article 상단을 맞추기 위한 여백 (100vh - 92vh) / 2 = 4vh */
+/*scroll-snap-type: x mandatory;*/
+  -webkit-overflow-scrolling: touch;
+  padding-left: 50px;
+}
+
+.kangminjedotcom {
+  font-style: italic;
+}
