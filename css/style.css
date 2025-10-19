@@ -55,7 +55,7 @@ body::-webkit-scrollbar {
 .logo {
   /* position: fixed; top: 40px; left: 60px; -> #logo로 이동 */
   margin: 0;
-  font-family: "Exposure",
+  font-family: Exposure,
     ui-sans-serif,
     system-ui,
     -apple-system,
