@@ -43,7 +43,7 @@
 /* 문구 하단에 작게 들어가는 fluid 로고 */
 #mobile-notice .mobile-logo {
   font-family: 'Exposure80Italic', sans-serif;
-  font-size: 330px; /* 메인 로고보다 훨씬 작게 설정 */
+  font-size: 300px; /* 메인 로고보다 훨씬 작게 설정 */
   /*
   border-top: 1px dotted black;
   padding: 15px 50px;
