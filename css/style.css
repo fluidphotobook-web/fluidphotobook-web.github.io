@@ -14,7 +14,7 @@
   --dividerX: 25vw; 
 }
 
-/* --- Mobile Notice Overlay (추가된 부분) --- */
+/* --- Mobile Notice Overlay --- */
 #mobile-notice {
   display: none; /* 기본 숨김 */
   position: fixed;
@@ -23,7 +23,8 @@
   width: 100vw;
   height: 100vh;
   background: #ffffff;
-  z-index: 10000; /* 모든 요소 최상단 */
+  z-index: 10000; 
+  flex-direction: column; /* 문구와 로고를 세로로 배치 */
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -34,261 +35,100 @@
   font-size: 16px;
   color: var(--black);
   letter-spacing: 0.02em;
-  font-style: italic;
+  font-style: regualr;
   margin: 0;
+  /*padding-bottom: 15px;*/
 }
 
-/* --- Responsive Media Query (모바일 차단 설정) --- */
+/* 문구 하단에 작게 들어가는 fluid 로고 */
+#mobile-notice .mobile-logo {
+  font-family: 'Exposure80Italic', sans-serif;
+  font-size: 330px; /* 메인 로고보다 훨씬 작게 설정 */
+  /*
+  border-top: 1px dotted black;
+  padding: 15px 50px;
+  */
+  margin-top: 0px; /* 문구와의 간격 */
+  color: rgba(240,240,240,0.5)
+}
+
+.mobile-logo-sans{
+  display: inline-block;
+    font-family: sans-serif;
+  font-size: 12px; /* 메인 로고보다 훨씬 작게 설정 */
+  color: var(--black);
+}
+
+/* --- Responsive Media Query --- */
 @media (max-width: 768px) {
   #mobile-notice {
-    display: flex; /* 모바일에서만 노출 */
+    display: flex; 
   }
   .wrap {
-    display: none !important; /* 기존 콘텐츠 숨김 */
+    display: none !important; 
   }
   body {
-    overflow: hidden; /* 스크롤 방지 */
+    overflow: hidden; 
   }
 }
 
-/* --- 기존 PC 스타일 유지 --- */
-a {
-  color: black;
-  text-decoration: none;
-}
+/* --- 기존 PC 스타일 유지 (이하 동일) --- */
+a { color: black; text-decoration: none; }
+html, body { height: 100%; margin: 0; background: #ffffff; color: var(--black); overflow-y: scroll; }
+body { scrollbar-width: none; -ms-overflow-style: none; }
+body::-webkit-scrollbar { display: none; }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  background: #ffffff;
-  color: var(--black);
-  overflow-y: scroll;
-}
-
-body {
-  scrollbar-width: none; 
-  -ms-overflow-style: none; 
-}
-body::-webkit-scrollbar {
-  display: none; 
-}
-
-.wrap {
-  position: relative;
-  height: 100vh;
-  overflow: hidden; 
-  z-index: 100;
-}
-
-#logo {
-  position: fixed;
-  top: 40px;
-  left: 60px;
-  z-index: 1000; 
-}
-
+.wrap { position: relative; height: 100vh; overflow: hidden; z-index: 100; }
+#logo { position: fixed; top: 40px; left: 60px; z-index: 1000; }
 .logo {
   margin: 0;
-  font-family:
-    Exposure80Italic,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    "Noto Sans",
-    "Apple Color Emoji",
-    "Segoe UI Emoji";
-  font-size: 104px; 
-  line-height: 0.9;
-  letter-spacing: 0;
-  user-select: none;
-  z-index: 999; 
+  font-family: Exposure80Italic, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 104px; line-height: 0.9; letter-spacing: 0; user-select: none; z-index: 999; 
 }
 
 .menu {
-  position: fixed;
-  left: 48px;
-  bottom: 42px;
-  display: flex;
-  flex-direction: column;
-  gap: 0; 
+  position: fixed; left: 48px; bottom: 42px; display: flex; flex-direction: column; gap: 0; 
   font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 16px; 
-  line-height: 33px; 
-  text-align: left;
+  font-size: 16px; line-height: 33px; text-align: left;
 }
-
-.menu a:hover {
-  text-decoration: underline;
-}
+.menu a:hover { text-decoration: underline; }
 
 .divider {
-  position: fixed;
-  left: var(--dividerX);
-  height: 92vh; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  width: 0; 
-  pointer-events: none;
-  background: none;
+  position: fixed; left: var(--dividerX); height: 92vh; top: 50%; transform: translateY(-50%); 
+  width: 0; pointer-events: none; background: none;
 }
-
 .divider::after {
-  content: "";
-  position: absolute;
-  left: -1px; 
-  top: 0;
-  height: 100%; 
-  width: 0;
-  border-right: 1px solid #000;
-  opacity: 0.6;
+  content: ""; position: absolute; left: -1px; top: 0; height: 100%; width: 0;
+  border-right: 1px solid #000; opacity: 0.6;
 }
 
 .strip {
-  position: fixed;
-  left: var(--dividerX);
-  top: 0;
-  height: 100vh;
-  width: calc(100vw - var(--dividerX));
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: flex;
-  align-items: center; 
-  gap: 7vw; 
-  padding: 0 6vw 0 6vw; 
-  -webkit-overflow-scrolling: touch;
-  padding-left: 50px;
+  position: fixed; left: var(--dividerX); top: 0; height: 100vh; width: calc(100vw - var(--dividerX));
+  overflow-x: auto; overflow-y: hidden; display: flex; align-items: center; gap: 7vw; 
+  padding: 0 6vw 0 6vw; -webkit-overflow-scrolling: touch; padding-left: 50px;
 }
 
-.card {
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-  position: relative;
-  display: grid;
-  place-items: center;
-  height: 80vh;
-  aspect-ratio: 1;
-}
+.card { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 80vh; aspect-ratio: 1; }
+.card-last { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 80vh; aspect-ratio: 0.5; margin-left: 1000px; margin-right: 450px; }
 
-.card-last {
-  flex: 0 0 auto;
-  scroll-snap-align: start;
-  position: relative;
-  display: grid;
-  place-items: center;
-  height: 80vh;
-  aspect-ratio: 0.5;
-  margin-left: 1000px;
-  margin-right: 450px;
-}
+.cover-container { display: flex; align-items: flex-end; width: 100%; height: 100%; overflow: hidden; position: relative; }
+.img { position: relative; width: 80%; height: 100%; }
+.meta { left: -20px; opacity: 1; width: 8%; height: 100%; display: flex; flex-direction: column; justify-content: flex-start; margin-left: 20px; }
 
-.cover-container {
-  display: flex; 
-  align-items: flex-end; 
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative; 
-}
-
-.img {
-  position: relative; 
-  width: 80%; 
-  height: 100%;
-}
-
-.meta {
-  left: -20px;
-  opacity: 1; 
-  width: 8%; 
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; 
-  margin-left: 20px;
-}
-
-.cover-container img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain; 
-  transition: none;
-}
-
-.cover-container span {
-  font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 12px;
-  line-height: 16px;
-  text-align: left;
-  opacity: 1;
-  user-select: none;
-}
-
-.meta-1 {
-  margin-bottom: 4px; 
-}
-
-.meta-2 {
-  font-style: italic;
-}
-
-.cover-container span,
-.cover-container span em {
-  color: var(--black);
-  z-index: 10;
-}
-
-.card .cover-back {
-  opacity: 0;
-}
-
-.cover-container:hover .cover-front {
-  opacity: 0;
-  cursor: pointer;
-}
-
-.cover-container:hover .cover-back {
-  opacity: 1;
-  cursor: pointer;
-}
-
-.soon {
-  display: block;
-  font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 18px;
-  line-height: 16px;
-  text-align: left;
-  z-index: 100;
-}
-
-.fluid {
-  font-style: italic;
-}
+.cover-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transition: none; }
+.cover-container span { font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; font-size: 12px; line-height: 16px; text-align: left; opacity: 1; user-select: none; }
+.meta-1 { margin-bottom: 4px; }
+.meta-2 { font-style: italic; }
+.cover-container span, .cover-container span em { color: var(--black); z-index: 10; }
+.card .cover-back { opacity: 0; }
+.cover-container:hover .cover-front { opacity: 0; cursor: pointer; }
+.cover-container:hover .cover-back { opacity: 1; cursor: pointer; }
+.soon { display: block; font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; font-size: 18px; line-height: 16px; text-align: left; z-index: 100; }
+.fluid { font-style: italic; }
 
 .strip-about {
-  position: fixed;
-  left: var(--dividerX);
-  top: 0;
-  height: 100vh;
-  width: calc(100vw - var(--dividerX));
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: flex;
-  align-items: flex-start; 
-  gap: 7vw; 
-  padding: 0 6vw 0 6vw; 
-  padding-top: 4vh; 
-  -webkit-overflow-scrolling: touch;
-  padding-left: 50px;
+  position: fixed; left: var(--dividerX); top: 0; height: 100vh; width: calc(100vw - var(--dividerX));
+  overflow-x: auto; overflow-y: hidden; display: flex; align-items: flex-start; gap: 7vw; 
+  padding: 0 6vw 0 6vw; padding-top: 4vh; -webkit-overflow-scrolling: touch; padding-left: 50px;
 }
-
-.kangminjedotcom {
-  font-style: italic;
-}
+.kangminjedotcom { font-style: italic; }
