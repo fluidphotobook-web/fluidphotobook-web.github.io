@@ -56,6 +56,9 @@ strip.addEventListener('scroll', () => {
 
 // 3. 휠 이벤트 변환 로직 (세로 휠 -> 가로 스크롤)
 function handleGlobalWheel(e) {
+  if (window.innerWidth <= 768) return; 
+
+  const rect = dividerEl.getBoundingClientRect();
   const rect = dividerEl.getBoundingClientRect();
   const isRightSide = e.clientX >= rect.left; 
   const verticalDominant = Math.abs(e.deltaY) > Math.abs(e.deltaX);
