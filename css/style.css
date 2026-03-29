@@ -14,7 +14,7 @@
   --dividerX: 25vw; 
 }
 
-/* --- Mobile Notice Overlay --- */
+/* --- Mobile Notice Overlay (kangminje.com style fallback) --- */
 #mobile-notice {
   display: none; /* 기본 숨김 */
   position: fixed;
@@ -24,51 +24,112 @@
   height: 100vh;
   background: #ffffff;
   z-index: 10000; 
-  flex-direction: column; /* 문구와 로고를 세로로 배치 */
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-#mobile-notice p {
-  font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 16px;
-  color: var(--black);
-  letter-spacing: 0.02em;
-  font-style: regualr;
-  margin: 0;
-  /*padding-bottom: 15px;*/
-}
-
-/* 문구 하단에 작게 들어가는 fluid 로고 */
-#mobile-notice .mobile-logo {
-  font-family: 'Exposure80Italic', sans-serif;
-  font-size: 300px; /* 메인 로고보다 훨씬 작게 설정 */
-  /*
-  border-top: 1px dotted black;
-  padding: 15px 50px;
-  */
-  margin-top: 0px; /* 문구와의 간격 */
-  color: rgba(240,240,240,0.5)
-}
-
-.mobile-logo-sans{
-  display: inline-block;
-    font-family: sans-serif;
-  font-size: 12px; /* 메인 로고보다 훨씬 작게 설정 */
-  color: var(--black);
 }
 
 /* --- Responsive Media Query --- */
 @media (max-width: 768px) {
   #mobile-notice {
-    display: flex; 
+    display: none !important;
   }
+
   .wrap {
-    display: none !important; 
+    display: block !important; 
   }
   body {
-    overflow: hidden; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+  }
+
+  /* Fixed Logo acting as Menu Toggle */
+  #logo {
+    left: 20px;
+    z-index: 10000;
+  }
+
+  /* Slide-Out Menu Panels */
+  .menu-top, .menu {
+    position: fixed;
+    left: -100vw;
+    width: 80vw;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    transition: left 0.3s ease;
+    padding: 0 0 0 20px;
+    box-sizing: border-box;
+  }
+
+  .menu-top {
+    top: 0;
+    height: 50vh;
+    padding-top: 100px;
+    transform: none;
+  }
+
+  .menu {
+    bottom: 0;
+    top: 50vh;
+    height: 50vh;
+    justify-content: flex-end;
+    padding-bottom: 40px;
+  }
+
+  body.menu-open .menu-top,
+  body.menu-open .menu {
+    left: 0;
+  }
+
+  .divider { display: none; }
+
+  /* Vertical Layout for Strip */
+  .strip, .strip-about {
+    position: relative;
+    width: 100%;
+    height: auto;
+    left: 0;
+    top: 0;
+    padding: 100px 20px 80px 20px; /* 20px side margins, 100px below logo */
+    box-sizing: border-box;
+    flex-direction: column;
+    overflow: visible;
+    gap: 15vh;
+  }
+  
+  .card, .card-reduced {
+    width: 100%;
+    height: 60vh;
+    margin: 0;
+  }
+  
+  .card-last {
+    width: 100%;
+    height: 30vh;
+    margin: 0;
+  }
+
+  .cover-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .img {
+    width: 100%;
+    height: 85%;
+  }
+  .meta {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0;
+    padding-top: 15px;
+    left: 0;
+  }
+  
+  .meta-2 { margin-top: 0; }
+
+  .text-card {
+    width: 100% !important;
+    padding: 0 !important;
+    height: auto !important;
   }
 }
 
@@ -79,7 +140,7 @@ body { scrollbar-width: none; -ms-overflow-style: none; }
 body::-webkit-scrollbar { display: none; }
 
 .wrap { position: relative; height: 100vh; overflow: hidden; z-index: 100; }
-#logo { position: fixed; top: 40px; left: 60px; z-index: 1000; }
+#logo { position: fixed; top: 40px; left: 48px; z-index: 1000; text-decoration: underline dotted; text-underline-offset: 3px; }
 .logo {
   margin: 0;
   font-family: Exposure80Italic, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
@@ -93,7 +154,16 @@ body::-webkit-scrollbar { display: none; }
 }
 .menu a:hover { text-decoration: underline; }
 
+.menu-top {
+  position: fixed; left: 48px; top: 25%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0; 
+  font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 16px; line-height: 33px; text-align: left;
+}
+.menu-top a:hover { text-decoration: underline; }
+.menu-top a.others:hover { text-decoration: line-through; color: var(--gray50); }
+
 .divider {
+  display: none;
   position: fixed; left: var(--dividerX); height: 92vh; top: 50%; transform: translateY(-50%); 
   width: 0; pointer-events: none; background: none;
 }
@@ -108,7 +178,8 @@ body::-webkit-scrollbar { display: none; }
   padding: 0 6vw 0 6vw; -webkit-overflow-scrolling: touch; padding-left: 50px;
 }
 
-.card { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 80vh; aspect-ratio: 1; }
+.card { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 60vh; aspect-ratio: 1; }
+.card-reduced { height: 90vh; }
 .card-last { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 80vh; aspect-ratio: 0.5; margin-left: 1000px; margin-right: 450px; }
 
 .cover-container { display: flex; align-items: flex-end; width: 100%; height: 100%; overflow: hidden; position: relative; }
@@ -118,11 +189,12 @@ body::-webkit-scrollbar { display: none; }
 .cover-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transition: none; }
 .cover-container span { font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; font-size: 12px; line-height: 16px; text-align: left; opacity: 1; user-select: none; }
 .meta-1 { margin-bottom: 4px; }
-.meta-2 { font-style: italic; }
+.meta-2 { font-style: italic; margin-top: 10px; }
+.meta-title:hover { border-bottom: 1px dotted var(--black); cursor: pointer; }
 .cover-container span, .cover-container span em { color: var(--black); z-index: 10; }
 .card .cover-back { opacity: 0; }
-.cover-container:hover .cover-front { opacity: 0; cursor: pointer; }
-.cover-container:hover .cover-back { opacity: 1; cursor: pointer; }
+.img:hover .cover-front { opacity: 0; cursor: pointer; }
+.img:hover .cover-back { opacity: 1; cursor: pointer; }
 .soon { display: block; font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; font-size: 18px; line-height: 16px; text-align: left; z-index: 100; }
 .fluid { font-style: italic; }
 

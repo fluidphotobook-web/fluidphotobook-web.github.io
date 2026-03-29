@@ -43,36 +43,18 @@ body::-webkit-scrollbar {
   z-index: 100;
 }
 
-/* **수정:** #logo (a 태그)에 z-index 부여 및 고정 위치 설정 */
+/* **수정:** #logo (a 태그)에 텍스트 스타일 지정 */
 #logo {
   position: fixed;
   top: 40px;
-  left: 60px;
-  z-index: 1000; /* .logo(h1)보다 높은 값으로 클릭 영역 확보 */
-}
-
-/* 1) Big title top-left */
-.logo {
-  /* position: fixed; top: 40px; left: 60px; -> #logo로 이동 */
-  margin: 0;
-  font-family:
-    Exposure80Italic,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    "Noto Sans",
-    "Apple Color Emoji",
-    "Segoe UI Emoji";
-  font-size: 104px; /* based on 1366×900 artboard */
-  line-height: 0.9;
-  letter-spacing: 0;
-  user-select: none;
-  /* **수정:** pointer-events: none; 제거하여 클릭 허용 */
-  z-index: 999; /* #logo 아래에 배치되어도 괜찮음 (클릭은 #logo가 처리) */
+  left: 48px;
+  z-index: 1000;
+  font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 33px;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
 }
 
 /* 2) Left vertical menu (bottom-left alignment) */
@@ -94,6 +76,29 @@ body::-webkit-scrollbar {
 }
 .menu a:hover {
   text-decoration: underline;
+}
+.menu-top {
+  position: fixed;
+  left: 48px;
+  top: 28%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 33px;
+  text-align: left;
+}
+.menu-top a {
+  color: black;
+  text-decoration: none;
+}
+.menu-top a:hover {
+  text-decoration: underline;
+}
+.menu-top a.others:hover {
+  color: #a0a0a0;
+  text-decoration: line-through;
 }
 
 /* 3) Vertical dotted divider at 35% from the left */
@@ -148,6 +153,16 @@ content: "";
   display: grid;
   place-items: center;
   height: 80vh;
+  aspect-ratio: 1;
+}
+
+.card-reduced {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 65vh;
   aspect-ratio: 1;
 }
 
@@ -220,7 +235,8 @@ content: "";
 }
 
 /* 3. span 태그에 적용된 position: absolute; 수정 */
-.cover-container span {
+.cover-container span,
+.cover-container a {
   /* position: absolute; /* **제거: Flexbox 흐름 내에 있어야 함** */
   /* 폰트 Baskerville 적용 */
   font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -238,6 +254,18 @@ content: "";
   margin-bottom: 4px; /* meta-2와 간격 추가 */
 }
 
+a.meta-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+a.meta-link:hover .meta-1 {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
+}
+
 .meta-2 {
   /* in stock (재고 상태) */
   /* bottom: 30px; /* **제거: Flexbox와 padding-bottom으로 대체** */
@@ -247,6 +275,7 @@ content: "";
 /* --- 주요 수정 구간 (end) --- */
 
 .cover-container span,
+.cover-container a,
 .cover-container span em {
   color: var(--black);
   z-index: 10;
@@ -256,12 +285,12 @@ content: "";
   opacity: 0;
 }
 
-.cover-container:hover .cover-front {
+.img:hover .cover-front {
   opacity: 0;
   cursor: pointer;
 }
 
-.cover-container:hover .cover-back {
+.img:hover .cover-back {
   opacity: 1;
   cursor: pointer;
 }
