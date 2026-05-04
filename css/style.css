@@ -122,7 +122,7 @@ body::-webkit-scrollbar { display: none; }
    ============================================ */
 @media (max-width: 600px) {
   html, body { height: 100%; overflow-y: auto !important; }
-  .wrap { height: auto; min-height: 100dvh; overflow: visible; }
+  .wrap { height: auto; min-height: 100dvh; overflow: visible; display: flex; flex-direction: column; }
   .divider { display: none !important; }
 
   #logo { position: fixed; top: 24px; left: 24px; font-size: 16px; z-index: 2000; }
@@ -142,20 +142,36 @@ body::-webkit-scrollbar { display: none; }
   #detail-body .menu-top,
   #about-body .menu-top { display: none !important; }
   
-  /* Footer (Menu) - Shown only at the bottom */
+  /* Footer (Menu) */
+  /* Default for Landing Page: Fixed at bottom */
   .menu {
-    position: relative !important;
-    bottom: auto !important;
-    left: auto !important;
+    position: fixed !important;
+    left: 24px !important;
+    bottom: 24px !important;
     top: auto !important;
-    padding: 0 0 60px 0 !important;
-    margin-top: 60px !important;
+    right: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
     font-size: 16px;
     line-height: 28px;
-    z-index: 2000;
+    z-index: 5000 !important;
     pointer-events: auto !important;
     display: flex !important;
     flex-direction: column !important;
+  }
+  .menu a { color: #000 !important; text-decoration: none; }
+  
+  /* For Content Pages (Works/Detail/About): Relative at bottom of scroll */
+  body.is-works .menu,
+  body#detail-body .menu,
+  body#about-body .menu {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    top: auto !important;
+    margin-top: 60px !important;
+    padding: 0 0 60px 24px !important;
+    order: 3;
   }
 
   /* Strip / Content Area */
@@ -164,6 +180,7 @@ body::-webkit-scrollbar { display: none; }
     overflow-y: visible; overflow-x: hidden; display: flex; flex-direction: column;
     padding: 120px 24px 0 24px; box-sizing: border-box; gap: 80px; z-index: 100;
     -webkit-overflow-scrolling: touch;
+    order: 2;
   }
   
   /* Layout: Meta below image */
@@ -188,7 +205,7 @@ body::-webkit-scrollbar { display: none; }
   }
   
   .meta p { max-width: 100% !important; margin-top: 15px !important; }
-  .meta button#request-btn { margin-top: 20px; }
+  .meta button#request-btn { margin-top: 20px; color: #000; -webkit-appearance: none; }
 
   .strip-about { padding: 120px 24px 120px 24px; transform: none; display: block; }
   
