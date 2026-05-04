@@ -14,124 +14,207 @@
   --dividerX: 25vw; 
 }
 
-/* --- Mobile Notice Overlay (kangminje.com style fallback) --- */
+/* --- Mobile Notice Overlay --- */
 #mobile-notice {
-  display: none; /* 기본 숨김 */
+  display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
   background: #ffffff;
-  z-index: 10000; 
+  z-index: 10000;
 }
 
-/* --- Responsive Media Query --- */
-@media (max-width: 768px) {
-  #mobile-notice {
-    display: none !important;
+/* ============================================
+   MOBILE & TABLET (max-width: 1024px)
+   ============================================ */
+@media (max-width: 1024px) {
+  #mobile-notice { display: none !important; }
+
+  html, body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
   }
 
   .wrap {
-    display: block !important; 
-  }
-  body {
-    overflow-y: auto; 
-    overflow-x: hidden;
+    display: block !important;
+    height: auto;
+    overflow: visible;
   }
 
-  /* Fixed Logo acting as Menu Toggle */
+  .divider { display: none !important; }
+
+  /* ── 로고: 좌상단 고정 ── */
   #logo {
-    left: 20px;
-    z-index: 10000;
+    position: fixed;
+    top: 28px;
+    left: 24px;
+    z-index: 1000;
+    font-size: 16px;
   }
 
-  /* Slide-Out Menu Panels */
-  .menu-top, .menu {
+  /* ── 상단 메뉴 (fluidpaper / others): 우상단 고정 ── */
+  .menu-top {
     position: fixed;
-    left: -100vw;
-    width: 80vw;
-    background: rgba(255, 255, 255, 0.98);
-    z-index: 9999;
-    transition: left 0.3s ease;
-    padding: 0 0 0 20px;
+    top: 28px;
+    left: auto;
+    right: 24px;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+    font-family: Baskerville, ui-serif, Georgia, serif;
+    font-size: 14px;
+    line-height: 22px;
+    z-index: 1000;
+  }
+
+  /* ── 하단 메뉴 (About / Contact / Instagram): 좌하단 고정 ── */
+  .menu {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    right: auto;
+    top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    font-family: Baskerville, ui-serif, Georgia, serif;
+    font-size: 14px;
+    line-height: 22px;
+    z-index: 1000;
+  }
+
+  .menu a:hover, .menu-top a:hover { text-decoration: underline; }
+  .menu-top a.others:hover { text-decoration: line-through; color: var(--gray50); }
+
+  /* ── 메인 스트립 (index) ── */
+  .strip {
+    position: relative;
+    left: 0; top: 0;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: visible;
+    gap: 0;
+    padding: 80px 24px 120px 24px;
     box-sizing: border-box;
   }
 
-  .menu-top {
-    top: 0;
-    height: 50vh;
-    padding-top: 100px;
-    transform: none;
+  /* ── 카드 ── */
+  .card, .card-reduced {
+    width: 100%;
+    height: auto;
+    aspect-ratio: unset;
+    flex: none;
+    scroll-snap-align: none;
+    display: block;
+    margin: 0 0 60px 0;
+    position: relative;
   }
 
-  .menu {
-    bottom: 0;
-    top: 50vh;
-    height: 50vh;
-    justify-content: flex-end;
-    padding-bottom: 40px;
+  .card-last {
+    width: 100%;
+    height: auto;
+    flex: none;
+    margin: 0 !important;
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 0 40px;
   }
 
-  body.menu-open .menu-top,
-  body.menu-open .menu {
-    left: 0;
+  /* ── 커버 컨테이너: 이미지(좌) + 메타(우) 나란히 ── */
+  .cover-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    overflow: visible;
   }
 
-  .divider { display: none; }
+  .img {
+    position: relative;
+    width: 60%;
+    height: auto;
+    flex-shrink: 0;
+  }
 
-  /* Vertical Layout for Strip */
-  .strip, .strip-about {
+  .cover-container img {
     position: relative;
     width: 100%;
     height: auto;
-    left: 0;
-    top: 0;
-    padding: 100px 20px 80px 20px; /* 20px side margins, 100px below logo */
-    box-sizing: border-box;
-    flex-direction: column;
-    overflow: visible;
-    gap: 15vh;
-  }
-  
-  .card, .card-reduced {
-    width: 100%;
-    height: 60vh;
-    margin: 0;
-  }
-  
-  .card-last {
-    width: 100%;
-    height: 30vh;
-    margin: 0;
+    max-height: 60vh;
+    object-fit: contain;
+    object-position: top left;
+    display: block;
+    transition: none;
   }
 
-  .cover-container {
-    flex-direction: column;
-    align-items: flex-start;
+  .cover-back {
+    position: absolute !important;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
   }
-  .img {
-    width: 100%;
-    height: 85%;
-  }
+
+  /* 탭으로 앞뒤 표지 전환 */
+  .img.tapped .cover-front { opacity: 0; }
+  .img.tapped .cover-back  { opacity: 1; }
+
+  /* 메타 영역 */
   .meta {
+    width: calc(40% - 20px);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 20px;
+    left: 0;
+    padding: 0;
+  }
+
+  .meta-1 { margin-bottom: 4px; }
+  .meta-2 { font-style: italic; margin-top: 10px; }
+
+  /* ── About 페이지 ── */
+  .strip-about {
+    position: relative;
+    left: 0; top: 0;
     width: 100%;
     height: auto;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0;
-    padding-top: 15px;
-    left: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    padding: 80px 24px 120px 24px;
+    box-sizing: border-box;
+    transform: none;
+    align-items: flex-start;
+    gap: 0;
   }
-  
-  .meta-2 { margin-top: 0; }
 
-  .text-card {
-    width: 100% !important;
-    padding: 0 !important;
-    height: auto !important;
+  .strip-about p {
+    line-height: 1.6;
+    margin-top: 0;
+    margin-bottom: 4px;
   }
 }
+
+/* ============================================
+   MOBILE ONLY (max-width: 600px)
+   ============================================ */
+@media (max-width: 600px) {
+  .strip { padding: 72px 20px 110px 20px; }
+  .strip-about { padding: 72px 20px 110px 20px; }
+
+  .img { width: 58%; }
+  .meta { width: calc(42% - 16px); margin-left: 16px; }
+}
+
 
 /* --- 기존 PC 스타일 유지 (이하 동일) --- */
 a { color: black; text-decoration: none; }
@@ -182,11 +265,12 @@ body::-webkit-scrollbar { display: none; }
 .card-reduced { height: 90vh; }
 .card-last { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 80vh; aspect-ratio: 0.5; margin-left: 1000px; margin-right: 450px; }
 
-.cover-container { display: flex; align-items: flex-end; width: 100%; height: 100%; overflow: hidden; position: relative; }
-.img { position: relative; width: 80%; height: 100%; }
-.meta { left: -20px; opacity: 1; width: 8%; height: 100%; display: flex; flex-direction: column; justify-content: flex-start; margin-left: 20px; }
+.cover-container { display: flex; align-items: flex-start; width: 100%; height: auto; overflow: visible; position: relative; }
+.img { position: relative; width: 80%; height: auto; }
+.meta { left: -20px; opacity: 1; width: 20%; height: auto; display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; margin-left: 20px; }
 
-.cover-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; transition: none; }
+.cover-container img { position: relative; width: 100%; height: auto; max-height: 85vh; object-fit: contain; transition: none; display: block; }
+.cover-back { position: absolute !important; top: 0; left: 0; width: 100%; height: 100%; }
 .cover-container span { font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; font-size: 12px; line-height: 16px; text-align: left; opacity: 1; user-select: none; }
 .meta-1 { margin-bottom: 4px; }
 .meta-2 { font-style: italic; margin-top: 10px; }
@@ -199,8 +283,13 @@ body::-webkit-scrollbar { display: none; }
 .fluid { font-style: italic; }
 
 .strip-about {
-  position: fixed; left: var(--dividerX); top: 0; height: 100vh; width: calc(100vw - var(--dividerX));
+  position: fixed; left: var(--dividerX); top: 22vh; height: auto; width: calc(100vw - var(--dividerX));
   overflow-x: auto; overflow-y: hidden; display: flex; align-items: flex-start; gap: 7vw; 
-  padding: 0 6vw 0 6vw; padding-top: 4vh; -webkit-overflow-scrolling: touch; padding-left: 50px;
+  padding: 0 6vw 0 6vw; -webkit-overflow-scrolling: touch; padding-left: 50px;
+}
+.strip-about p {
+  line-height: 1.6;
+  margin-top: 0;
+  margin-bottom: 4px;
 }
 .kangminjedotcom { font-style: italic; }

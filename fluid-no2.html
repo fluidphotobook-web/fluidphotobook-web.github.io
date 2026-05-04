@@ -1,53 +1,550 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>fluid N°2</title>
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <div id="mobile-notice">
-      <p>mobile webpage under construction</p>
-      <div class="mobile-logo">fluid</div>
-    </div>
-    <div class="wrap">
-      <a id="logo" href="index.html">fluid</a>
 
-      <nav class="menu-top" aria-label="Secondary">
-        <a href="index.html">fluidpapers</a>
-        <a href="#" class="others">others</a>
-      </nav>
-      <nav class="menu" aria-label="Primary">
-        <a href="about.html">About</a>
-        <a href="mailto:info@kangminje.com?Subject=[ fluid ]">Contact</a>
-        <a href="https://instagram.com/fluidmag">Instagram</a>
-      </nav>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>fluid N°2</title>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Pretendard Regular font application for modal content */
+    #request-modal {
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+    }
 
-      <div class="divider" aria-hidden="true"></div>
+    #request-modal h2,
+    #request-modal .baskerville {
+      font-family: Baskerville, ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif !important;
+    }
 
-      <section class="strip" id="issues" aria-label="Issues">
-        <article class="card card-reduced">
-          <div class="cover-container">
-            <div class="img">
-              <img class="cover-front" src="srcs/img/thumb/fluid_vol2(cover_front).jpg" alt="fluid N°2" />
+    #request-modal input,
+    #request-modal select,
+    #request-modal p,
+    #request-modal label {
+      font-weight: 400;
+      color: #333;
+    }
+
+    #request-modal input,
+    #request-modal select {
+      border: 1px solid #e0e0e0;
+      border-radius: 0;
+      padding: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #request-modal input:focus,
+    #request-modal select:focus {
+      border-color: #000;
+    }
+
+    .form-group-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #999;
+      margin-bottom: 8px;
+      margin-top: 5px;
+    }
+
+    .confirm-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+
+    .confirm-item:last-child {
+      border-bottom: none;
+    }
+
+    .confirm-label {
+      color: #888;
+      font-size: 13px;
+    }
+
+    .confirm-value {
+      font-weight: 400;
+      font-size: 14px;
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mobile-notice">
+    <p>mobile webpage under construction</p>
+    <div class="mobile-logo">fluid</div>
+  </div>
+  <div class="wrap">
+    <a id="logo" href="index.html">fluid</a>
+
+    <nav class="menu-top" aria-label="Secondary">
+      <a href="index.html">fluidpaper</a>
+      <a href="#" class="others">others</a>
+    </nav>
+    <nav class="menu" aria-label="Primary">
+      <a href="about.html">About</a>
+      <a href="mailto:info@kangminje.com?Subject=[ fluid ]">Contact</a>
+      <a href="https://instagram.com/fluidmag">Instagram</a>
+    </nav>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <section class="strip" id="issues" aria-label="Issues">
+      <article class="card card-reduced">
+        <div class="cover-container">
+          <div class="img">
+            <img class="cover-front" src="srcs/img/thumb/fluid_vol2(cover_front).jpg" alt="fluid N°2" />
+            <img class="cover-back" src="srcs/img/thumb/fluid_vol2(cover_back).jpg" alt="fluid N°2 Back" />
+          </div>
+          <div class="meta">
+            <a href="fluid-no2.html" class="meta-link"><span class="meta-1"><span class="meta-title">fluid
+                  N°2</span><br />2025</span></a>
+
+            <div style="margin-top: 20px; width: 100%; border-top: 1px solid #000; padding-top: 10px; font-family: 'Pretendard Variable', Pretendard, sans-serif; font-size: 12px; line-height: 1.8;">
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 6px;">
+                <span style="opacity: 0.5;">Price</span>
+                <span>40,000 KRW</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
+                <span style="opacity: 0.5;">Status</span>
+                <span style="font-family: Baskerville, ui-serif, Georgia, serif; font-style: italic;">Accepting Requests</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 6px;">
+                <span style="opacity: 0.5;">Size</span>
+                <span>280 &times; 350mm</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 6px;">
+                <span style="opacity: 0.5;">Pages</span>
+                <span>124pages</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 6px;">
+                <span style="opacity: 0.5;">Binding</span>
+                <span>Pamphlet Stitch Binded</span>
+              </div>
             </div>
-            <div class="meta">
-              <a href="fluid-no2.html" class="meta-link"><span class="meta-1"><span class="meta-title">fluid N°2</span><br />2025</span></a>
-              <span class="meta-2">in stock</span>
+
+            <p
+              style="font-family: 'Pretendard Variable', Pretendard, sans-serif; font-size: 12px; line-height: 1.7; text-align: left; margin-top: 20px; margin-bottom: 25px; opacity: 0.8; max-width: 300px;">
+              fluid N°2 explores the depths of underwater emotions.<br><br>
+              2025.
+            </p>
+
+            <button id="request-btn" class="baskerville"
+              style="min-width: 80px; font-size: 12px; cursor: pointer; background: none; border: 1px solid var(--black); padding: 5px 15px; transition: background-color 0.2s, color 0.2s;">Request</button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <div id="request-modal"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.98); z-index: 20000; justify-content: center; align-items: center;">
+    <div
+      style="width: 90%; max-width: 480px; padding: 40px; border: 1px solid #000; background: #fff; position: relative; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+      <button id="close-modal-btn"
+        style="position: absolute; right: 20px; top: 20px; cursor: pointer; background: none; border: none; font-size: 24px; line-height: 1; opacity: 0.5;">&times;</button>
+
+      <!-- Step 1: Input Form -->
+      <div id="step-form">
+        <div style="text-align: center; margin-bottom: 35px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+          <h2 style="font-size: 24px; margin: 0; font-weight: normal; letter-spacing: 0.02em;">Request</h2>
+          <p style="font-size: 13px; margin: 10px 0 0 0; opacity: 0.6;">fluid N°2</p>
+        </div>
+
+        <form id="request-form"
+          style="display: flex; flex-direction: column; gap: 20px; font-size: 14px; width: 100%; box-sizing: border-box;">
+
+          <div>
+            <div class="form-group-title">Personal Information</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;">
+              <input type="text" id="req-name" placeholder="Name" required
+                style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+              <input type="text" id="req-surname" placeholder="Surname" required
+                style="width: 100%; font-family: inherit; box-sizing: border-box;" />
             </div>
           </div>
-        </article>
-        
-        <article class="text-card" style="display: flex; align-items: center; padding-left: 5vw; width: 40vw; scroll-snap-align: start;">
-          <p style="font-family: Baskerville, ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 16px; line-height: 1.6; text-align: left;">
-            fluid N°2 explores the depths of underwater emotions.<br><br>
-            2025.
-          </p>
-        </article>
-      </section>
-    </div>
 
-    <script defer src="js/script.js"></script>
-  </body>
+          <div>
+            <div class="form-group-title">Contact & Location</div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: grid; grid-template-columns: 110px 1fr; gap: 10px; width: 100%;">
+                <select id="req-country-code" required
+                  style="width: 100%; font-family: inherit; box-sizing: border-box;">
+                  <!-- Populated by script -->
+                </select>
+                <input type="tel" id="req-phone" placeholder="Phone Number" required
+                  style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+              </div>
+              <input type="email" id="req-email" placeholder="E-Mail Address" required
+                style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group-title">Shipping Details</div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <select id="req-country" required style="width: 100%; font-family: inherit; box-sizing: border-box;">
+                <option value="" disabled selected>Select Shipping Country</option>
+                <!-- Populated by script -->
+              </select>
+              <div style="display: grid; grid-template-columns: 1fr 110px; gap: 10px; width: 100%;">
+                <input type="text" id="req-address" placeholder="Full Address" required
+                  style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+                <input type="text" id="req-zip" placeholder="Zip Code" required
+                  style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group-title">Quantity</div>
+            <input type="number" id="req-qty" placeholder="1" min="1" value="1" required
+              style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+          </div>
+
+          <button type="button" id="next-step-btn" class="baskerville"
+            style="width: 100%; margin-top: 10px; padding: 12px; cursor: pointer; background: #000; color: #fff; border: none; font-size: 15px; letter-spacing: 0.05em; transition: opacity 0.2s;">Next
+            Step</button>
+        </form>
+
+        <p
+          style="font-size: 12px; margin-top: 25px; color: #888; line-height: 1.5; text-align: center; max-width: 90%; margin-left: auto; margin-right: auto;">
+          * Production begins upon reaching a minimum order threshold.<br>You will receive an invoice via email once the
+          target is met.
+        </p>
+      </div>
+
+      <!-- Step 2: Confirmation -->
+      <div id="step-confirm" style="display: none;">
+        <div style="text-align: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+          <h2 style="font-size: 22px; margin: 0; font-weight: normal;">Confirm Your Request</h2>
+          <p style="font-size: 13px; margin: 10px 0 0 0; opacity: 0.6;">Please review the information below</p>
+        </div>
+
+        <div id="confirm-details"
+          style="background: #fff; border: 1px solid #f0f0f0; padding: 20px; margin-bottom: 35px;">
+          <!-- Populated by script -->
+        </div>
+
+        <div style="display: grid; grid-template-columns: 100px 1fr; gap: 15px;">
+          <button type="button" id="back-step-btn" class="baskerville"
+            style="padding: 12px; cursor: pointer; background: none; border: 1px solid #ddd; font-size: 14px; color: #888;">Back</button>
+          <button type="button" id="submit-request-btn" class="baskerville"
+            style="padding: 12px; cursor: pointer; background: #000; color: #fff; border: none; font-size: 15px; letter-spacing: 0.05em;">Submit
+            Request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const countries = [
+        { name: "South Korea", dial_code: "+82", code: "KR" },
+        { name: "United States", dial_code: "+1", code: "US" },
+        { name: "Japan", dial_code: "+81", code: "JP" },
+        { name: "United Kingdom", dial_code: "+44", code: "GB" },
+        { name: "France", dial_code: "+33", code: "FR" },
+        { name: "Germany", dial_code: "+49", code: "DE" },
+        { name: "China", dial_code: "+86", code: "CN" },
+        { name: "Australia", dial_code: "+61", code: "AU" },
+        { name: "Canada", dial_code: "+1", code: "CA" },
+        { name: "Afghanistan", dial_code: "+93", code: "AF" },
+        { name: "Albania", dial_code: "+355", code: "AL" },
+        { name: "Algeria", dial_code: "+213", code: "DZ" },
+        { name: "Andorra", dial_code: "+376", code: "AD" },
+        { name: "Angola", dial_code: "+244", code: "AO" },
+        { name: "Argentina", dial_code: "+54", code: "AR" },
+        { name: "Armenia", dial_code: "+374", code: "AM" },
+        { name: "Austria", dial_code: "+43", code: "AT" },
+        { name: "Azerbaijan", dial_code: "+994", code: "AZ" },
+        { name: "Bahamas", dial_code: "+1242", code: "BS" },
+        { name: "Bahrain", dial_code: "+973", code: "BH" },
+        { name: "Bangladesh", dial_code: "+880", code: "BD" },
+        { name: "Barbados", dial_code: "+1246", code: "BB" },
+        { name: "Belarus", dial_code: "+375", code: "BY" },
+        { name: "Belgium", dial_code: "+32", code: "BE" },
+        { name: "Belize", dial_code: "+501", code: "BZ" },
+        { name: "Benin", dial_code: "+229", code: "BJ" },
+        { name: "Bhutan", dial_code: "+975", code: "BT" },
+        { name: "Bolivia", dial_code: "+591", code: "BO" },
+        { name: "Bosnia and Herzegovina", dial_code: "+387", code: "BA" },
+        { name: "Botswana", dial_code: "+267", code: "BW" },
+        { name: "Brazil", dial_code: "+55", code: "BR" },
+        { name: "Brunei", dial_code: "+673", code: "BN" },
+        { name: "Bulgaria", dial_code: "+359", code: "BG" },
+        { name: "Burkina Faso", dial_code: "+226", code: "BF" },
+        { name: "Burundi", dial_code: "+257", code: "BI" },
+        { name: "Cambodia", dial_code: "+855", code: "KH" },
+        { name: "Cameroon", dial_code: "+237", code: "CM" },
+        { name: "Cape Verde", dial_code: "+238", code: "CV" },
+        { name: "Central African Republic", dial_code: "+236", code: "CF" },
+        { name: "Chad", dial_code: "+235", code: "TD" },
+        { name: "Chile", dial_code: "+56", code: "CL" },
+        { name: "Colombia", dial_code: "+57", code: "CO" },
+        { name: "Comoros", dial_code: "+269", code: "KM" },
+        { name: "Congo", dial_code: "+242", code: "CG" },
+        { name: "Costa Rica", dial_code: "+506", code: "CR" },
+        { name: "Croatia", dial_code: "+385", code: "HR" },
+        { name: "Cuba", dial_code: "+53", code: "CU" },
+        { name: "Cyprus", dial_code: "+357", code: "CY" },
+        { name: "Czech Republic", dial_code: "+420", code: "CZ" },
+        { name: "Denmark", dial_code: "+45", code: "DK" },
+        { name: "Djibouti", dial_code: "+253", code: "DJ" },
+        { name: "Dominica", dial_code: "+1767", code: "DM" },
+        { name: "Dominican Republic", dial_code: "+1809", code: "DO" },
+        { name: "Ecuador", dial_code: "+593", code: "EC" },
+        { name: "Egypt", dial_code: "+20", code: "EG" },
+        { name: "El Salvador", dial_code: "+503", code: "SV" },
+        { name: "Estonia", dial_code: "+372", code: "EE" },
+        { name: "Ethiopia", dial_code: "+251", code: "ET" },
+        { name: "Fiji", dial_code: "+679", code: "FJ" },
+        { name: "Finland", dial_code: "+358", code: "FI" },
+        { name: "Georgia", dial_code: "+995", code: "GE" },
+        { name: "Ghana", dial_code: "+233", code: "GH" },
+        { name: "Greece", dial_code: "+30", code: "GR" },
+        { name: "Guatemala", dial_code: "+502", code: "GT" },
+        { name: "Guinea", dial_code: "+224", code: "GN" },
+        { name: "Guyana", dial_code: "+592", code: "GY" },
+        { name: "Haiti", dial_code: "+509", code: "HT" },
+        { name: "Honduras", dial_code: "+504", code: "HN" },
+        { name: "Hong Kong", dial_code: "+852", code: "HK" },
+        { name: "Hungary", dial_code: "+36", code: "HU" },
+        { name: "Iceland", dial_code: "+354", code: "IS" },
+        { name: "India", dial_code: "+91", code: "IN" },
+        { name: "Indonesia", dial_code: "+62", code: "ID" },
+        { name: "Iran", dial_code: "+98", code: "IR" },
+        { name: "Iraq", dial_code: "+964", code: "IQ" },
+        { name: "Ireland", dial_code: "+353", code: "IE" },
+        { name: "Israel", dial_code: "+972", code: "IL" },
+        { name: "Italy", dial_code: "+39", code: "IT" },
+        { name: "Jamaica", dial_code: "+1876", code: "JM" },
+        { name: "Jordan", dial_code: "+962", code: "JO" },
+        { name: "Kazakhstan", dial_code: "+7", code: "KZ" },
+        { name: "Kenya", dial_code: "+254", code: "KE" },
+        { name: "Kuwait", dial_code: "+965", code: "KW" },
+        { name: "Kyrgyzstan", dial_code: "+996", code: "KG" },
+        { name: "Laos", dial_code: "+856", code: "LA" },
+        { name: "Latvia", dial_code: "+371", code: "LV" },
+        { name: "Lebanon", dial_code: "+961", code: "LB" },
+        { name: "Liberia", dial_code: "+231", code: "LR" },
+        { name: "Libya", dial_code: "+218", code: "LY" },
+        { name: "Lithuania", dial_code: "+370", code: "LT" },
+        { name: "Luxembourg", dial_code: "+352", code: "LU" },
+        { name: "Macau", dial_code: "+853", code: "MO" },
+        { name: "Madagascar", dial_code: "+261", code: "MG" },
+        { name: "Malaysia", dial_code: "+60", code: "MY" },
+        { name: "Maldives", dial_code: "+960", code: "MV" },
+        { name: "Mali", dial_code: "+223", code: "ML" },
+        { name: "Malta", dial_code: "+356", code: "MT" },
+        { name: "Mexico", dial_code: "+52", code: "MX" },
+        { name: "Moldova", dial_code: "+373", code: "MD" },
+        { name: "Monaco", dial_code: "+377", code: "MC" },
+        { name: "Mongolia", dial_code: "+976", code: "MN" },
+        { name: "Montenegro", dial_code: "+382", code: "ME" },
+        { name: "Morocco", dial_code: "+212", code: "MA" },
+        { name: "Mozambique", dial_code: "+258", code: "MZ" },
+        { name: "Myanmar", dial_code: "+95", code: "MM" },
+        { name: "Namibia", dial_code: "+264", code: "NA" },
+        { name: "Nepal", dial_code: "+977", code: "NP" },
+        { name: "Netherlands", dial_code: "+31", code: "NL" },
+        { name: "New Zealand", dial_code: "+64", code: "NZ" },
+        { name: "Nicaragua", dial_code: "+505", code: "NI" },
+        { name: "Nigeria", dial_code: "+234", code: "NG" },
+        { name: "North Korea", dial_code: "+850", code: "KP" },
+        { name: "Norway", dial_code: "+47", code: "NO" },
+        { name: "Oman", dial_code: "+968", code: "OM" },
+        { name: "Pakistan", dial_code: "+92", code: "PK" },
+        { name: "Panama", dial_code: "+507", code: "PA" },
+        { name: "Paraguay", dial_code: "+595", code: "PY" },
+        { name: "Peru", dial_code: "+51", code: "PE" },
+        { name: "Philippines", dial_code: "+63", code: "PH" },
+        { name: "Poland", dial_code: "+48", code: "PL" },
+        { name: "Portugal", dial_code: "+351", code: "PT" },
+        { name: "Qatar", dial_code: "+974", code: "QA" },
+        { name: "Romania", dial_code: "+40", code: "RO" },
+        { name: "Russia", dial_code: "+7", code: "RU" },
+        { name: "Saudi Arabia", dial_code: "+966", code: "SA" },
+        { name: "Senegal", dial_code: "+221", code: "SN" },
+        { name: "Serbia", dial_code: "+381", code: "RS" },
+        { name: "Singapore", dial_code: "+65", code: "SG" },
+        { name: "Slovakia", dial_code: "+421", code: "SK" },
+        { name: "Slovenia", dial_code: "+386", code: "SI" },
+        { name: "South Africa", dial_code: "+27", code: "ZA" },
+        { name: "Spain", dial_code: "+34", code: "ES" },
+        { name: "Sri Lanka", dial_code: "+94", code: "LK" },
+        { name: "Sudan", dial_code: "+249", code: "SD" },
+        { name: "Sweden", dial_code: "+46", code: "SE" },
+        { name: "Switzerland", dial_code: "+41", code: "CH" },
+        { name: "Taiwan", dial_code: "+886", code: "TW" },
+        { name: "Tanzania", dial_code: "+255", code: "TZ" },
+        { name: "Thailand", dial_code: "+66", code: "TH" },
+        { name: "Tunisia", dial_code: "+216", code: "TN" },
+        { name: "Turkey", dial_code: "+90", code: "TR" },
+        { name: "Uganda", dial_code: "+256", code: "UG" },
+        { name: "Ukraine", dial_code: "+380", code: "UA" },
+        { name: "United Arab Emirates", dial_code: "+971", code: "AE" },
+        { name: "Uruguay", dial_code: "+598", code: "UY" },
+        { name: "Uzbekistan", dial_code: "+998", code: "UZ" },
+        { name: "Venezuela", dial_code: "+58", code: "VE" },
+        { name: "Vietnam", dial_code: "+84", code: "VN" },
+        { name: "Zambia", dial_code: "+260", code: "ZM" },
+        { name: "Zimbabwe", dial_code: "+263", code: "ZW" }
+      ];
+
+      // Populate country selects
+      const codeSelect = document.getElementById('req-country-code');
+      const countrySelect = document.getElementById('req-country');
+
+      // Clear existing options (except first one in countrySelect)
+      codeSelect.innerHTML = '';
+
+      // Sort countries alphabetically for the list
+      const sortedCountries = [...countries].sort((a, b) => a.name.localeCompare(b.name));
+
+      sortedCountries.forEach(c => {
+        // Country Code Select
+        const codeOpt = document.createElement('option');
+        codeOpt.value = c.dial_code;
+        codeOpt.textContent = `${c.dial_code} (${c.code})`;
+        if (c.code === 'KR') codeOpt.selected = true;
+        codeSelect.appendChild(codeOpt);
+
+        // Country Name Select
+        const nameOpt = document.createElement('option');
+        nameOpt.value = c.name;
+        nameOpt.textContent = c.name;
+        countrySelect.appendChild(nameOpt);
+      });
+
+      const reqBtn = document.getElementById('request-btn');
+      const modal = document.getElementById('request-modal');
+      const closeBtn = document.getElementById('close-modal-btn');
+      const form = document.getElementById('request-form');
+
+      const stepForm = document.getElementById('step-form');
+      const stepConfirm = document.getElementById('step-confirm');
+      const nextBtn = document.getElementById('next-step-btn');
+      const backBtn = document.getElementById('back-step-btn');
+      const submitBtn = document.getElementById('submit-request-btn');
+      const confirmDetails = document.getElementById('confirm-details');
+
+      if (reqBtn && modal && closeBtn) {
+        reqBtn.addEventListener('mouseenter', () => {
+          reqBtn.style.backgroundColor = 'var(--black)';
+          reqBtn.style.color = '#fff';
+        });
+        reqBtn.addEventListener('mouseleave', () => {
+          reqBtn.style.backgroundColor = 'transparent';
+          reqBtn.style.color = 'var(--black)';
+        });
+
+        reqBtn.addEventListener('click', () => {
+          modal.style.display = 'flex';
+          stepForm.style.display = 'block';
+          stepConfirm.style.display = 'none';
+        });
+
+        closeBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+
+        // Transition to Step 2
+        nextBtn.addEventListener('click', () => {
+          if (form.reportValidity()) {
+            const name = document.getElementById('req-name').value + ' ' + document.getElementById('req-surname').value;
+            const phone = document.getElementById('req-country-code').value + ' ' + document.getElementById('req-phone').value;
+            const email = document.getElementById('req-email').value;
+            const country = document.getElementById('req-country').value;
+            const address = document.getElementById('req-address').value;
+            const zip = document.getElementById('req-zip').value;
+            const qty = document.getElementById('req-qty').value;
+
+            confirmDetails.innerHTML = `
+              <div class="confirm-item"><span class="confirm-label">Name</span><span class="confirm-value">${name}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Phone</span><span class="confirm-value">${phone}</span></div>
+              <div class="confirm-item"><span class="confirm-label">E-Mail</span><span class="confirm-value">${email}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Country</span><span class="confirm-value">${country}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Address</span><span class="confirm-value">${address}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Zip Code</span><span class="confirm-value">${zip}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Quantity</span><span class="confirm-value">${qty}</span></div>
+            `;
+
+            stepForm.style.display = 'none';
+            stepConfirm.style.display = 'block';
+          }
+        });
+
+        // Transition back to Step 1
+        backBtn.addEventListener('click', () => {
+          stepConfirm.style.display = 'none';
+          stepForm.style.display = 'block';
+        });
+
+        // Final Submission
+        submitBtn.addEventListener('click', () => {
+          const originalBtnText = submitBtn.innerText;
+          submitBtn.innerText = 'Submitting...';
+          submitBtn.disabled = true;
+          backBtn.disabled = true;
+
+          const formData = new FormData();
+
+          // Get current date in YYYY-MM-DD format
+          const now = new Date();
+          const formattedDate = now.getFullYear() + '-' +
+            String(now.getMonth() + 1).padStart(2, '0') + '-' +
+            String(now.getDate()).padStart(2, '0');
+
+          const fullName = document.getElementById('req-name').value + ' ' + document.getElementById('req-surname').value;
+          const fullPhone = "'" + document.getElementById('req-country-code').value + ' ' + document.getElementById('req-phone').value;
+          const country = document.getElementById('req-country').value;
+          const addressWithZip = document.getElementById('req-address').value + ' (' + document.getElementById('req-zip').value + ')';
+
+          formData.append('date', formattedDate);
+          formData.append('name', fullName);
+          formData.append('phone', fullPhone);
+          formData.append('email', document.getElementById('req-email').value);
+          formData.append('country', country);
+          formData.append('address', addressWithZip);
+
+          // These are extra but kept for compatibility
+          formData.append('qty', document.getElementById('req-qty').value);
+          formData.append('project', 'fluid N2');
+
+          const scriptURL = 'https://script.google.com/macros/s/AKfycbysaUx_F9DYTUDi9mu5tt0Vs-RnSL1x_mBvgN6ymLKMCuGD0ifPNq8FrvUtKVPtZgh_/exec';
+
+          fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => {
+              alert('Your request has been successfully submitted.\n\nThank you!');
+              modal.style.display = 'none';
+              form.reset();
+            })
+            .catch(error => {
+              console.error('Error!', error.message);
+              alert('An error occurred while submitting your request. Please try again later.');
+            })
+            .finally(() => {
+              submitBtn.innerText = originalBtnText;
+              submitBtn.disabled = false;
+              backBtn.disabled = false;
+            });
+        });
+      }
+    });
+  </script>
+</body>
+
 </html>

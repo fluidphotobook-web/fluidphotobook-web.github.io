@@ -1,54 +1,461 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>fluid N°1</title>
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <div id="mobile-notice">
-      <p>mobile webpage under construction</p>
-      <div class="mobile-logo">fluid</div>
-    </div>
-    <div class="wrap">
-      <a id="logo" href="index.html">fluid</a>
 
-      <nav class="menu-top" aria-label="Secondary">
-        <a href="index.html">fluidpapers</a>
-        <a href="#" class="others">others</a>
-      </nav>
-      <nav class="menu" aria-label="Primary">
-        <a href="about.html">About</a>
-        <a href="mailto:info@kangminje.com?Subject=[ fluid ]">Contact</a>
-        <a href="https://instagram.com/fluidmag">Instagram</a>
-      </nav>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>fluid N°1</title>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Pretendard Regular font application for modal content */
+    #request-modal {
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+    }
 
-      <div class="divider" aria-hidden="true"></div>
+    #request-modal h2,
+    #request-modal .baskerville {
+      font-family: Baskerville, ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif !important;
+    }
 
-      <section class="strip" id="issues" aria-label="Issues">
-        <article class="card">
-          <div class="cover-container">
-            <div class="img">
-              <img class="cover-front" src="srcs/img/thumb/fluid_vol1(cover_front).jpg" alt="fluid N°1" />
+    #request-modal input,
+    #request-modal select,
+    #request-modal p,
+    #request-modal label {
+      font-weight: 400;
+      color: #333;
+    }
+
+    #request-modal input,
+    #request-modal select {
+      border: 1px solid #e0e0e0;
+      border-radius: 0;
+      padding: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    #request-modal input:focus,
+    #request-modal select:focus {
+      border-color: #000;
+    }
+
+    .form-group-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #999;
+      margin-bottom: 8px;
+      margin-top: 5px;
+    }
+
+    .confirm-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+
+    .confirm-item:last-child {
+      border-bottom: none;
+    }
+
+    .confirm-label {
+      color: #888;
+      font-size: 13px;
+    }
+
+    .confirm-value {
+      font-weight: 400;
+      font-size: 14px;
+      text-align: right;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mobile-notice">
+    <p>mobile webpage under construction</p>
+    <div class="mobile-logo">fluid</div>
+  </div>
+  <div class="wrap">
+    <a id="logo" href="index.html">fluid</a>
+
+    <nav class="menu-top" aria-label="Secondary">
+      <a href="index.html">fluidpaper</a>
+      <a href="#" class="others">others</a>
+    </nav>
+    <nav class="menu" aria-label="Primary">
+      <a href="about.html">About</a>
+      <a href="mailto:info@kangminje.com?Subject=[ fluid ]">Contact</a>
+      <a href="https://instagram.com/fluidmag">Instagram</a>
+    </nav>
+
+    <div class="divider" aria-hidden="true"></div>
+
+    <section class="strip" id="issues" aria-label="Issues">
+      <article class="card card-reduced">
+        <div class="cover-container">
+          <div class="img">
+            <img class="cover-front" src="srcs/img/thumb/fluid_vol1(cover_front).jpg" alt="fluid N°1" />
+            <img class="cover-back" src="srcs/img/thumb/fluid_vol1(cover_back).jpg" alt="fluid N°1 Back" />
+          </div>
+          <div class="meta">
+            <a href="fluid-no1.html" class="meta-link"><span class="meta-1"><span class="meta-title">fluid
+                  N°1</span><br />2024</span></a>
+
+            <div style="margin-top: 20px; width: 100%; border-top: 1px solid #000; padding-top: 10px; font-family: 'Pretendard Variable', Pretendard, sans-serif; font-size: 12px; line-height: 1.8;">
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 6px;">
+                <span style="opacity: 0.5;">Price</span>
+                <span>30,000 KRW</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
+                <span style="opacity: 0.5;">Status</span>
+                <span style="font-family: Baskerville, ui-serif, Georgia, serif; font-style: italic;">Accepting Requests</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 6px;">
+                <span style="opacity: 0.5;">Size</span>
+                <span>210 &times; 285mm</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 6px;">
+                <span style="opacity: 0.5;">Pages</span>
+                <span>90pages</span>
+              </div>
             </div>
-            <div class="meta">
-              <a href="fluid-no1.html" class="meta-link"><span class="meta-1"><span class="meta-title">fluid N°1</span><br />2024</span></a>
-              <span class="meta-2">out of paper</span>
+
+            <p
+              style="font-family: 'Pretendard Variable', Pretendard, sans-serif; font-size: 12px; line-height: 1.7; text-align: left; margin-top: 20px; margin-bottom: 25px; opacity: 0.8; max-width: 300px;">
+              fluid N°1 is the conceptual beginning of our photography practice.<br><br>
+              A compilation of works defining the conceptual start of fluid.<br><br>
+              2024.
+            </p>
+
+            <button id="request-btn" class="baskerville"
+              style="min-width: 80px; font-size: 12px; cursor: pointer; background: none; border: 1px solid var(--black); padding: 5px 15px; transition: background-color 0.2s, color 0.2s;">Request</button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <!-- Request Modal -->
+  <div id="request-modal"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.98); z-index: 20000; justify-content: center; align-items: center;">
+    <div
+      style="width: 90%; max-width: 480px; padding: 40px; border: 1px solid #000; background: #fff; position: relative; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+      <button id="close-modal-btn"
+        style="position: absolute; right: 20px; top: 20px; cursor: pointer; background: none; border: none; font-size: 24px; line-height: 1; opacity: 0.5;">&times;</button>
+
+      <!-- Step 1: Input Form -->
+      <div id="step-form">
+        <div style="text-align: center; margin-bottom: 35px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+          <h2 style="font-size: 24px; margin: 0; font-weight: normal; letter-spacing: 0.02em;">Request</h2>
+          <p style="font-size: 13px; margin: 10px 0 0 0; opacity: 0.6;">fluid N°1</p>
+        </div>
+
+        <form id="request-form"
+          style="display: flex; flex-direction: column; gap: 20px; font-size: 14px; width: 100%; box-sizing: border-box;">
+
+          <div>
+            <div class="form-group-title">Personal Information</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;">
+              <input type="text" id="req-name" placeholder="Name" required
+                style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+              <input type="text" id="req-surname" placeholder="Surname" required
+                style="width: 100%; font-family: inherit; box-sizing: border-box;" />
             </div>
           </div>
-        </article>
-        
-        <article class="text-card" style="display: flex; align-items: center; padding-left: 5vw; width: 40vw; scroll-snap-align: start;">
-          <p style="font-family: Baskerville, ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 16px; line-height: 1.6; text-align: left;">
-            fluid N°1 is the conceptual beginning of our photography practice.<br><br>
-            A compilation of works defining the conceptual start of fluid.<br><br>
-            2024.
-          </p>
-        </article>
-      </section>
-    </div>
 
-    <script defer src="js/script.js"></script>
-  </body>
+          <div>
+            <div class="form-group-title">Contact & Location</div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: grid; grid-template-columns: 110px 1fr; gap: 10px; width: 100%;">
+                <select id="req-country-code" required
+                  style="width: 100%; font-family: inherit; box-sizing: border-box;">
+                  <!-- Populated by script -->
+                </select>
+                <input type="tel" id="req-phone" placeholder="Phone Number" required
+                  style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+              </div>
+              <input type="email" id="req-email" placeholder="E-Mail Address" required
+                style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group-title">Shipping Details</div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <select id="req-country" required style="width: 100%; font-family: inherit; box-sizing: border-box;">
+                <option value="" disabled selected>Select Shipping Country</option>
+                <!-- Populated by script -->
+              </select>
+              <div style="display: grid; grid-template-columns: 1fr 110px; gap: 10px; width: 100%;">
+                <input type="text" id="req-address" placeholder="Full Address" required
+                  style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+                <input type="text" id="req-zip" placeholder="Zip Code" required
+                  style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-group-title">Quantity</div>
+            <input type="number" id="req-qty" placeholder="1" min="1" value="1" required
+              style="width: 100%; font-family: inherit; box-sizing: border-box;" />
+          </div>
+
+          <button type="button" id="next-step-btn" class="baskerville"
+            style="width: 100%; margin-top: 10px; padding: 12px; cursor: pointer; background: #000; color: #fff; border: none; font-size: 15px; letter-spacing: 0.05em; transition: opacity 0.2s;">Next
+            Step</button>
+        </form>
+
+        <p
+          style="font-size: 12px; margin-top: 25px; color: #888; line-height: 1.5; text-align: center; max-width: 90%; margin-left: auto; margin-right: auto;">
+          * Production begins upon reaching a minimum order threshold.<br>You will receive an invoice via email once the
+          target is met.
+        </p>
+      </div>
+
+      <!-- Step 2: Confirmation -->
+      <div id="step-confirm" style="display: none;">
+        <div style="text-align: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+          <h2 style="font-size: 22px; margin: 0; font-weight: normal;">Confirm Your Request</h2>
+          <p style="font-size: 13px; margin: 10px 0 0 0; opacity: 0.6;">Please review the information below</p>
+        </div>
+
+        <div id="confirm-details"
+          style="background: #fff; border: 1px solid #f0f0f0; padding: 20px; margin-bottom: 35px;">
+          <!-- Populated by script -->
+        </div>
+
+        <div style="display: grid; grid-template-columns: 100px 1fr; gap: 15px;">
+          <button type="button" id="back-step-btn" class="baskerville"
+            style="padding: 12px; cursor: pointer; background: none; border: 1px solid #ddd; font-size: 14px; color: #888;">Back</button>
+          <button type="button" id="submit-request-btn" class="baskerville"
+            style="padding: 12px; cursor: pointer; background: #000; color: #fff; border: none; font-size: 15px; letter-spacing: 0.05em;">Submit
+            Request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Global Country List
+      const countries = [
+        { name: "South Korea", code: "KR", dial: "+82" },
+        { name: "United States", code: "US", dial: "+1" },
+        { name: "United Kingdom", code: "GB", dial: "+44" },
+        { name: "Japan", code: "JP", dial: "+81" },
+        { name: "China", code: "CN", dial: "+86" },
+        { name: "France", code: "FR", dial: "+33" },
+        { name: "Germany", code: "DE", dial: "+49" },
+        { name: "Canada", code: "CA", dial: "+1" },
+        { name: "Australia", code: "AU", dial: "+61" },
+        { name: "Italy", code: "IT", dial: "+39" },
+        { name: "Spain", code: "ES", dial: "+34" },
+        { name: "Vietnam", code: "VN", dial: "+84" },
+        { name: "Thailand", code: "TH", dial: "+66" },
+        { name: "Singapore", code: "SG", dial: "+65" },
+        { name: "Hong Kong", code: "HK", dial: "+852" },
+        { name: "Taiwan", code: "TW", dial: "+886" },
+        { name: "Indonesia", code: "ID", dial: "+62" },
+        { name: "Malaysia", code: "MY", dial: "+60" },
+        { name: "Netherlands", code: "NL", dial: "+31" },
+        { name: "Switzerland", code: "CH", dial: "+41" },
+        { name: "Sweden", code: "SE", dial: "+46" },
+        { name: "Norway", code: "NO", dial: "+47" },
+        { name: "Denmark", code: "DK", dial: "+45" },
+        { name: "Belgium", code: "BE", dial: "+32" },
+        { name: "Austria", code: "AT", dial: "+43" },
+        { name: "Portugal", code: "PT", dial: "+351" },
+        { name: "Ireland", code: "IE", dial: "+353" },
+        { name: "Finland", code: "FI", dial: "+358" },
+        { name: "Poland", code: "PL", dial: "+48" },
+        { name: "Czech Republic", code: "CZ", dial: "+420" },
+        { name: "Hungary", code: "HU", dial: "+36" },
+        { name: "New Zealand", code: "NZ", dial: "+64" },
+        { name: "Brazil", code: "BR", dial: "+55" },
+        { name: "Mexico", code: "MX", dial: "+52" },
+        { name: "India", code: "IN", dial: "+91" },
+        { name: "Turkey", code: "TR", dial: "+90" },
+        { name: "Russia", code: "RU", dial: "+7" },
+        { name: "United Arab Emirates", code: "AE", dial: "+971" },
+        { name: "Saudi Arabia", code: "SA", dial: "+966" },
+        { name: "Israel", code: "IL", dial: "+972" },
+        { name: "Philippines", code: "PH", dial: "+63" },
+        { name: "Greece", code: "GR", dial: "+30" },
+        { name: "South Africa", code: "ZA", dial: "+27" },
+        { name: "Argentina", code: "AR", dial: "+54" },
+        { name: "Chile", code: "CL", dial: "+56" },
+        { name: "Colombia", code: "CO", dial: "+57" },
+        { name: "Peru", code: "PE", dial: "+51" },
+        { name: "Egypt", code: "EG", dial: "+20" },
+        { name: "Ukraine", code: "UA", dial: "+380" },
+        { name: "Romania", code: "RO", dial: "+40" },
+        { name: "Iceland", code: "IS", dial: "+354" },
+        { name: "Luxembourg", code: "LU", dial: "+352" },
+        { name: "Singapore", code: "SG", dial: "+65" },
+        { name: "Malaysia", code: "MY", dial: "+60" },
+        { name: "Mexico", code: "MX", dial: "+52" },
+        { name: "Indonesia", code: "ID", dial: "+62" },
+        { name: "Philippines", code: "PH", dial: "+63" },
+        { name: "Thailand", code: "TH", dial: "+66" },
+        { name: "Vietnam", code: "VN", dial: "+84" }
+      ];
+
+      // Add common countries as requested for better UX
+      const countrySelect = document.getElementById('req-country');
+      const codeSelect = document.getElementById('req-country-code');
+
+      // Clear existing options (except first one in countrySelect)
+      codeSelect.innerHTML = '';
+
+      // Sort countries alphabetically for the list
+      const sortedCountries = [...countries].sort((a, b) => a.name.localeCompare(b.name));
+
+      sortedCountries.forEach(country => {
+        // Populate country code dropdown
+        const codeOpt = document.createElement('option');
+        codeOpt.value = country.dial;
+        codeOpt.textContent = `${country.dial} (${country.code})`;
+        if (country.code === 'KR') codeOpt.selected = true;
+        codeSelect.appendChild(codeOpt);
+
+        // Populate country dropdown
+        const countryOpt = document.createElement('option');
+        countryOpt.value = country.name;
+        countryOpt.textContent = country.name;
+        countrySelect.appendChild(countryOpt);
+      });
+
+      // Modal Logic
+      const reqBtn = document.getElementById('request-btn');
+      const modal = document.getElementById('request-modal');
+      const closeBtn = document.getElementById('close-modal-btn');
+      const form = document.getElementById('request-form');
+
+      const stepForm = document.getElementById('step-form');
+      const stepConfirm = document.getElementById('step-confirm');
+      const nextBtn = document.getElementById('next-step-btn');
+      const backBtn = document.getElementById('back-step-btn');
+      const submitBtn = document.getElementById('submit-request-btn');
+      const confirmDetails = document.getElementById('confirm-details');
+
+      if (reqBtn && modal && closeBtn) {
+        reqBtn.addEventListener('mouseenter', () => {
+          reqBtn.style.backgroundColor = 'var(--black)';
+          reqBtn.style.color = '#fff';
+        });
+        reqBtn.addEventListener('mouseleave', () => {
+          reqBtn.style.backgroundColor = 'transparent';
+          reqBtn.style.color = 'var(--black)';
+        });
+
+        reqBtn.addEventListener('click', () => {
+          modal.style.display = 'flex';
+          stepForm.style.display = 'block';
+          stepConfirm.style.display = 'none';
+        });
+
+        closeBtn.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+
+        // Transition to Step 2
+        nextBtn.addEventListener('click', () => {
+          if (form.reportValidity()) {
+            const name = document.getElementById('req-name').value + ' ' + document.getElementById('req-surname').value;
+            const phone = document.getElementById('req-country-code').value + ' ' + document.getElementById('req-phone').value;
+            const email = document.getElementById('req-email').value;
+            const country = document.getElementById('req-country').value;
+            const address = document.getElementById('req-address').value;
+            const zip = document.getElementById('req-zip').value;
+            const qty = document.getElementById('req-qty').value;
+
+            confirmDetails.innerHTML = `
+              <div class="confirm-item"><span class="confirm-label">Name</span><span class="confirm-value">${name}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Phone</span><span class="confirm-value">${phone}</span></div>
+              <div class="confirm-item"><span class="confirm-label">E-Mail</span><span class="confirm-value">${email}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Country</span><span class="confirm-value">${country}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Address</span><span class="confirm-value">${address}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Zip Code</span><span class="confirm-value">${zip}</span></div>
+              <div class="confirm-item"><span class="confirm-label">Quantity</span><span class="confirm-value">${qty}</span></div>
+            `;
+
+            stepForm.style.display = 'none';
+            stepConfirm.style.display = 'block';
+          }
+        });
+
+        // Transition back to Step 1
+        backBtn.addEventListener('click', () => {
+          stepConfirm.style.display = 'none';
+          stepForm.style.display = 'block';
+        });
+
+        // Final Submission
+        submitBtn.addEventListener('click', () => {
+          const originalBtnText = submitBtn.innerText;
+          submitBtn.innerText = 'Submitting...';
+          submitBtn.disabled = true;
+          backBtn.disabled = true;
+
+          const formData = new FormData();
+
+          // Get current date in YYYY-MM-DD format
+          const now = new Date();
+          const formattedDate = now.getFullYear() + '-' +
+            String(now.getMonth() + 1).padStart(2, '0') + '-' +
+            String(now.getDate()).padStart(2, '0');
+
+          const fullName = document.getElementById('req-name').value + ' ' + document.getElementById('req-surname').value;
+          const fullPhone = "'" + document.getElementById('req-country-code').value + ' ' + document.getElementById('req-phone').value;
+          const country = document.getElementById('req-country').value;
+          const addressWithZip = document.getElementById('req-address').value + ' (' + document.getElementById('req-zip').value + ')';
+
+          formData.append('date', formattedDate);
+          formData.append('name', fullName);
+          formData.append('phone', fullPhone);
+          formData.append('email', document.getElementById('req-email').value);
+          formData.append('country', country);
+          formData.append('address', addressWithZip);
+
+          // These are extra but kept for compatibility
+          formData.append('qty', document.getElementById('req-qty').value);
+          formData.append('project', 'fluid N1');
+
+          const scriptURL = 'https://script.google.com/macros/s/AKfycbzqKwmM2XAlX0ZDTsW4Sa85mx9ZPFtTUk3wcn0FT9gGYoVOp8bb0QZ5Ln-CRsUIDKTq/exec';
+
+          fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => {
+              alert('Your request has been successfully submitted.\n\nThank you!');
+              modal.style.display = 'none';
+              form.reset();
+            })
+            .catch(error => {
+              console.error('Error!', error.message);
+              alert('An error occurred while submitting your request. Please try again later.');
+            })
+            .finally(() => {
+              submitBtn.innerText = originalBtnText;
+              submitBtn.disabled = false;
+              backBtn.disabled = false;
+            });
+        });
+      }
+    });
+  </script>
+</body>
+
 </html>
