@@ -57,7 +57,7 @@ body::-webkit-scrollbar { display: none; }
 .menu-top a.others:hover { text-decoration: line-through; color: var(--gray50); }
 
 .divider {
-  display: block;
+  display: none;
   position: fixed; left: var(--dividerX); height: 92vh; top: 50%; transform: translateY(-50%); 
   width: 0; pointer-events: none; background: none;
 }
@@ -137,22 +137,32 @@ body::-webkit-scrollbar { display: none; }
     z-index: 1000;
   }
   
-  /* When Works are shown */
-  .is-works .menu-top { display: none !important; }
+  /* When Works are shown or on Detail/About page */
+  .is-works .menu-top,
+  #detail-body .menu-top,
+  #about-body .menu-top { display: none !important; }
   
-  /* Footer (Menu) */
+  /* Footer (Menu) - Shown only at the bottom */
   .menu {
-    position: fixed; bottom: 24px; left: 24px; top: auto;
-    font-size: 16px; line-height: 28px;
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    top: auto !important;
+    padding: 0 0 60px 0 !important;
+    margin-top: 60px !important;
+    font-size: 16px;
+    line-height: 28px;
     z-index: 2000;
     pointer-events: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   /* Strip / Content Area */
   .strip, .strip-about {
     position: relative; top: 0; left: 0; width: 100%; height: auto;
     overflow-y: visible; overflow-x: hidden; display: flex; flex-direction: column;
-    padding: 120px 24px 120px 24px; box-sizing: border-box; gap: 80px; z-index: 100;
+    padding: 120px 24px 0 24px; box-sizing: border-box; gap: 80px; z-index: 100;
     -webkit-overflow-scrolling: touch;
   }
   
@@ -182,7 +192,5 @@ body::-webkit-scrollbar { display: none; }
 
   .strip-about { padding: 120px 24px 120px 24px; transform: none; display: block; }
   
-  /* Tapped state for cover flip */
-  .img.tapped .cover-front { opacity: 0 !important; }
-  .img.tapped .cover-back  { opacity: 1 !important; }
+
 }

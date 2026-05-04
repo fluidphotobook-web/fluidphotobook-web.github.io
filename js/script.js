@@ -26,20 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── 모바일/태블릿: 탭으로 앞뒤 표지 전환 ── */
-  document.querySelectorAll('.img').forEach(imgEl => {
-    imgEl.addEventListener('click', (e) => {
-      if (isTouchDevice()) {
-        // 이미지 영역 클릭 시 상세페이지 이동 방지하고 표지만 전환
-        if (imgEl.tagName === 'A' || e.target.closest('a') === imgEl) {
-          e.preventDefault();
-          imgEl.classList.toggle('tapped');
-        } else {
-          imgEl.classList.toggle('tapped');
-        }
-      }
-    });
-  });
+  /* ── 모바일: 이미지 클릭 시 상세페이지 이동 허용 (플립 모션 제거) ── */
+  // 사용자의 요청으로 모바일에서 이미지 클릭 시 뒷커버 전환 모션을 제거했습니다.
+  // 이제 목록의 이미지를 클릭하면 바로 상세페이지로 이동합니다.
 
   /* ── 로고 클릭 ── */
   const logo = document.getElementById('logo');
