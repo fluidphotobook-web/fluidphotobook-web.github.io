@@ -117,43 +117,72 @@ body::-webkit-scrollbar { display: none; }
 /* ============================================
    MOBILE (max-width: 600px)
    ============================================ */
+/* ============================================
+   MOBILE (max-width: 600px)
+   ============================================ */
 @media (max-width: 600px) {
-  html, body { height: 100%; overflow: hidden; }
-  .wrap { height: 100dvh; position: relative; overflow: hidden; }
+  html, body { height: 100%; overflow-y: auto !important; }
+  .wrap { height: auto; min-height: 100dvh; overflow: visible; }
   .divider { display: none !important; }
 
-  #logo { top: 24px; left: 24px; font-size: 16px; }
+  #logo { position: fixed; top: 24px; left: 24px; font-size: 16px; z-index: 2000; }
   
+  /* Landing State (index-body without .is-works) */
+  #index-body:not(.is-works) .strip { display: none !important; }
+  
+  /* Menu Top (Landing) */
   .menu-top {
     position: fixed; top: 50dvh; left: 24px; transform: translateY(-50%);
     font-size: 16px; line-height: 28px;
+    z-index: 1000;
   }
   
+  /* When Works are shown */
+  .is-works .menu-top { display: none !important; }
+  
+  /* Footer (Menu) */
   .menu {
     position: fixed; bottom: 24px; left: 24px; top: auto;
     font-size: 16px; line-height: 28px;
+    z-index: 2000;
+    pointer-events: auto !important;
   }
 
+  /* Strip / Content Area */
   .strip, .strip-about {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100dvh;
-    overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column;
-    padding: 0 24px; box-sizing: border-box; gap: 60px; z-index: 1;
+    position: relative; top: 0; left: 0; width: 100%; height: auto;
+    overflow-y: visible; overflow-x: hidden; display: flex; flex-direction: column;
+    padding: 120px 24px 120px 24px; box-sizing: border-box; gap: 80px; z-index: 100;
     -webkit-overflow-scrolling: touch;
   }
   
+  /* Layout: Meta below image */
   .card, .card-reduced {
     width: 100%; height: auto; aspect-ratio: unset; display: block;
-    margin-top: 100px; position: relative;
+    margin-top: 0; position: relative;
   }
   .card-last { margin: 40px 0 120px 0; height: auto; display: block; }
 
-  .cover-container { flex-direction: row; align-items: flex-start; }
-  .img { width: 58%; flex-shrink: 0; }
-  .cover-container img { max-height: 50dvh; object-position: top left; }
+  .cover-container { flex-direction: column !important; align-items: flex-start !important; }
+  .img { width: 100% !important; flex-shrink: 0; }
+  .cover-container img { max-height: none !important; width: 100%; height: auto; object-fit: contain; }
   
-  .meta { width: calc(42% - 16px); margin-left: 16px; left: 0; }
+  .meta { 
+    width: 100% !important; 
+    margin-left: 0 !important; 
+    margin-top: 24px !important; 
+    left: 0 !important; 
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
   
-  .strip-about { padding: 80px 24px 120px 24px; transform: none; display: block; }
-  .img.tapped .cover-front { opacity: 0; }
-  .img.tapped .cover-back  { opacity: 1; }
+  .meta p { max-width: 100% !important; margin-top: 15px !important; }
+  .meta button#request-btn { margin-top: 20px; }
+
+  .strip-about { padding: 120px 24px 120px 24px; transform: none; display: block; }
+  
+  /* Tapped state for cover flip */
+  .img.tapped .cover-front { opacity: 0 !important; }
+  .img.tapped .cover-back  { opacity: 1 !important; }
 }
