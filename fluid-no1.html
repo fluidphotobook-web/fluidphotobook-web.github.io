@@ -96,9 +96,15 @@
     <section class="strip" id="issues" aria-label="Issues">
       <article class="card card-reduced">
         <div class="cover-container">
-          <div class="img">
-            <img class="cover-front" src="srcs/img/thumb/fluid_vol1(cover_front).jpg" alt="fluid N°1" />
-            <img class="cover-back" src="srcs/img/thumb/fluid_vol1(cover_back).jpg" alt="fluid N°1 Back" />
+          <div class="img book-viewer" data-volume="1" aria-label="fluid N°1 interior slideshow">
+            <div class="interior-slideshow" aria-live="polite"></div>
+            <div class="cover-sheets" aria-hidden="true">
+              <img class="cover-front" src="srcs/img/thumb/fluid_vol1(cover_front).jpg" alt="" />
+              <img class="cover-back" src="srcs/img/thumb/fluid_vol1(cover_back).jpg" alt="" />
+            </div>
+            <button class="slide-arrow slide-arrow-prev" type="button" aria-label="Previous page"><svg viewBox="0 0 36 36" aria-hidden="true"><polyline class="arrow-outline" points="21,29 10,18 21,7"></polyline><polyline class="arrow-shape" points="21,29 10,18 21,7"></polyline></svg></button>
+            <button class="slide-arrow slide-arrow-next" type="button" aria-label="Next page"><svg viewBox="0 0 36 36" aria-hidden="true"><polyline class="arrow-outline" points="21,29 10,18 21,7"></polyline><polyline class="arrow-shape" points="21,29 10,18 21,7"></polyline></svg></button>
+            <span class="slide-count" aria-hidden="true"></span>
           </div>
           <div class="meta">
             <a href="fluid-no1.html" class="meta-link"><span class="meta-1"><span class="meta-title">fluid
