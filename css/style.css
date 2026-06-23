@@ -313,6 +313,9 @@ body::-webkit-scrollbar { display: none; }
   .img { width: 100% !important; flex-shrink: 0; }
   .cover-container img { max-height: none !important; width: 100%; height: auto; object-fit: contain; }
   #detail-body .book-viewer { height: auto; min-height: 0; aspect-ratio: 4 / 5; }
+  #detail-body .book-viewer .cover-sheets { display: none; }
+  #detail-body .book-viewer .slide-arrow,
+  #detail-body .book-viewer .slide-count { opacity: 1; }
   
   .meta { 
     width: 100% !important; 
