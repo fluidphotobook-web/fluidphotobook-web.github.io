@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Detail pages: cover reveal + interior slideshow ── */
   const volumeImages = {
-    1: [1, 2, 18, 19, 20, 22, 23, 27, 28, 29, 31, 32, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47, 48],
-    2: [1, 2, 5, 8, 10, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 30, 31, 32, 36, 40, 42, 43, 45, 49, 55, 56, 60, 63, 64]
+    1: [2, 18, 19, 20, 22, 23, 27, 28, 29, 31, 32, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47],
+    2: [2, 5, 8, 10, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 30, 31, 32, 36, 40, 42, 43, 45, 49, 55, 56, 60, 63]
   };
 
   document.querySelectorAll('.book-viewer').forEach(viewer => {
@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const images = Array.from(slideshow.querySelectorAll('img'));
     const renderControls = () => {
       count.textContent = `${requestedIndex + 1} / ${images.length}`;
-      previous.disabled = requestedIndex === 0;
-      next.disabled = requestedIndex === images.length - 1;
+      previous.disabled = images.length <= 1;
+      next.disabled = images.length <= 1;
     };
     const setCoverPosition = isRevealed => {
       viewer.style.setProperty('--cover-offset', isRevealed ? `${viewer.clientHeight * 1.08}px` : '0px');
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const changeSlide = direction => {
       reveal();
-      requestedIndex = Math.max(0, Math.min(images.length - 1, requestedIndex + direction));
+      requestedIndex = (requestedIndex + direction + images.length) % images.length;
       renderControls();
       showRequestedSlide();
     };
