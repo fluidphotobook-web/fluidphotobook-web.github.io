@@ -139,9 +139,9 @@ body::-webkit-scrollbar { display: none; }
 .cover-sheets {
   z-index: 3;
   display: flex;
-  transform: translateY(calc(var(--cover-offset, 0px) * -1));
-  transition: transform 620ms cubic-bezier(.22,.61,.36,1);
-  will-change: transform;
+  opacity: 1;
+  transition: opacity 620ms cubic-bezier(.22,.61,.36,1);
+  will-change: opacity;
 }
 
 .cover-sheets img {
@@ -159,6 +159,7 @@ body::-webkit-scrollbar { display: none; }
 .cover-sheets .cover-back { display: none; }
 
 .book-viewer.is-revealed .cover-sheets {
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -190,8 +191,8 @@ body::-webkit-scrollbar { display: none; }
 .slide-arrow:focus-visible { opacity: 1; outline: 1px solid #fff; outline-offset: 3px; }
 .slide-arrow-prev { left: 14px; }
 .slide-arrow-next { right: 14px; }
-.book-viewer.is-revealed .slide-arrow,
-.book-viewer.is-revealed:hover .slide-arrow { opacity: 1; }
+.book-viewer:hover .slide-arrow,
+.book-viewer.is-revealed .slide-arrow { opacity: 1; }
 
 .slide-count {
   position: absolute;

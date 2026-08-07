@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── Detail pages: cover reveal + interior slideshow ── */
   const volumeImages = {
     1: [2, 18, 19, 20, 22, 23, 27, 28, 29, 31, 32, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47],
-    2: [2, 5, 8, 10, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 30, 31, 32, 36, 40, 42, 43, 45, 49, 55, 56, 60, 63]
+    2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
   };
 
   document.querySelectorAll('.book-viewer').forEach(viewer => {
@@ -60,7 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     pages.forEach((page, index) => {
       const image = document.createElement('img');
-      image.src = `srcs/img-web/vol${volume}/fluidvol${volume}_${String(page).padStart(2, '0')}.webp`;
+      if (volume == 1) {
+        image.src = `srcs/img-web/vol${volume}/fluidvol${volume}_${String(page).padStart(2, '0')}.webp`;
+      } else {
+        image.src = `srcs/img-web/vol${volume}/fluidno2_${String(page).padStart(2, '0')}.avif`;
+      }
       image.alt = `fluid N°${volume}, page ${index + 1}`;
       image.decoding = 'async';
       image.loading = index < 2 ? 'eager' : 'lazy';
@@ -76,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
       next.disabled = images.length <= 1;
     };
     const setCoverPosition = isRevealed => {
-      viewer.style.setProperty('--cover-offset', isRevealed ? `${viewer.clientHeight * 1.08}px` : '0px');
       viewer.classList.toggle('is-revealed', isRevealed);
     };
     const reveal = () => setCoverPosition(true);
@@ -102,7 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
       images[targetIndex + 1]?.decode?.().catch(() => {});
     };
     const changeSlide = direction => {
-      reveal();
+      if (!viewer.classList.contains('is-revealed')) {
+        reveal();
+        if (direction === 1) {
+          requestedIndex = 0;
+        } else {
+          requestedIndex = images.length - 1;
+        }
+        renderControls();
+        showRequestedSlide();
+        return;
+      }
       requestedIndex = (requestedIndex + direction + images.length) % images.length;
       renderControls();
       showRequestedSlide();
@@ -111,12 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderControls();
     previous.addEventListener('click', () => changeSlide(-1));
     next.addEventListener('click', () => changeSlide(1));
-
-    viewer.addEventListener('wheel', event => {
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      event.preventDefault();
-      setCoverPosition(event.deltaY > 0);
-    }, { passive: false });
 
     viewer.addEventListener('keydown', event => {
       if (event.key === 'ArrowLeft') { event.preventDefault(); changeSlide(-1); }
