@@ -96,10 +96,6 @@ body::-webkit-scrollbar {
 .menu-top a:hover {
   text-decoration: underline;
 }
-.menu-top a.others:hover {
-  color: #a0a0a0;
-  text-decoration: line-through;
-}
 
 /* 3) Vertical dotted divider at 35% from the left */
 .divider {

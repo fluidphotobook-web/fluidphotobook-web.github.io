@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const strips = document.querySelectorAll('.strip, .strip-about');
   strips.forEach(strip => {
     strip.addEventListener('wheel', (e) => {
+      if (document.body.classList.contains('show-monographs')) return;
       if (window.innerWidth > 1024) {
         if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
           e.preventDefault();
@@ -42,15 +43,75 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ── monographs 뷰 토글 로직 ── */
+  const updateViewFromURL = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('view') === 'monographs') {
+      document.body.classList.add('show-monographs');
+    } else {
+      document.body.classList.remove('show-monographs');
+    }
+  };
+
+  // 초기 로드 시 체크
+  updateViewFromURL();
+
+  // monographs 링크 클릭 시 새로고침 없는 전환
+  const monographsLinks = document.querySelectorAll('.monographs');
+  monographsLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (document.body.id === 'index-body') {
+        e.preventDefault();
+        document.body.classList.add('show-monographs');
+        const url = new URL(window.location);
+        url.searchParams.set('view', 'monographs');
+        window.history.pushState({}, '', url);
+      }
+    });
+  });
+
+  // fluidpaper 링크 클릭 시 새로고침 없는 전환
+  if (fluidpaperLink) {
+    fluidpaperLink.addEventListener('click', (e) => {
+      if (document.body.id === 'index-body') {
+        if (document.body.classList.contains('show-monographs') || (isTouchDevice() && !document.body.classList.contains('is-works'))) {
+          e.preventDefault();
+          document.body.classList.remove('show-monographs');
+          if (isTouchDevice() && !document.body.classList.contains('is-works')) {
+            document.body.classList.add('is-works');
+          }
+          const url = new URL(window.location);
+          url.searchParams.delete('view');
+          window.history.pushState({}, '', url);
+          window.scrollTo(0, 0);
+        }
+      }
+    });
+  }
+
+  // 브라우저 뒤로가기/앞으로가기 시 뷰 동기화
+  window.addEventListener('popstate', updateViewFromURL);
+
   /* ── Detail pages: cover reveal + interior slideshow ── */
-  const volumeImages = {
-    1: [2, 18, 19, 20, 22, 23, 27, 28, 29, 31, 32, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47],
-    2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+  const volumeConfig = {
+    1: {
+      pages: [2, 18, 19, 20, 22, 23, 27, 28, 29, 31, 32, 35, 36, 37, 41, 42, 43, 44, 45, 46, 47],
+      srcFor: page => `srcs/img-web/vol1/fluidvol1_${String(page).padStart(2, '0')}.webp`
+    },
+    2: {
+      pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      srcFor: page => `srcs/img-web/vol2/fluidno2_${String(page).padStart(2, '0')}.avif`
+    },
+    haircuts: {
+      pages: [1, 2, 3, 4, 5, 6, 7, 8],
+      srcFor: page => `srcs/img/others/haircuts_inner_${page}.jpg`
+    }
   };
 
   document.querySelectorAll('.book-viewer').forEach(viewer => {
     const volume = viewer.dataset.volume;
-    const pages = volumeImages[volume] || [];
+    const config = volumeConfig[volume] || { pages: [], srcFor: () => '' };
+    const pages = config.pages;
     const slideshow = viewer.querySelector('.interior-slideshow');
     const count = viewer.querySelector('.slide-count');
     const previous = viewer.querySelector('.slide-arrow-prev');
@@ -60,12 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     pages.forEach((page, index) => {
       const image = document.createElement('img');
-      if (volume == 1) {
-        image.src = `srcs/img-web/vol${volume}/fluidvol${volume}_${String(page).padStart(2, '0')}.webp`;
-      } else {
-        image.src = `srcs/img-web/vol${volume}/fluidno2_${String(page).padStart(2, '0')}.avif`;
-      }
-      image.alt = `fluid N°${volume}, page ${index + 1}`;
+      image.src = config.srcFor(page);
+      image.alt = `${volume === 'haircuts' ? 'Haircuts; various forms' : 'fluid N°' + volume}, page ${index + 1}`;
       image.decoding = 'async';
       image.loading = index < 2 ? 'eager' : 'lazy';
       if (index < 2) image.fetchPriority = 'high';
@@ -128,6 +185,41 @@ document.addEventListener('DOMContentLoaded', () => {
     viewer.addEventListener('keydown', event => {
       if (event.key === 'ArrowLeft') { event.preventDefault(); changeSlide(-1); }
       if (event.key === 'ArrowRight') { event.preventDefault(); changeSlide(1); }
+    });
+  });
+
+  /* ── Currency toggle (KRW / EUR), bottom right ── */
+  const currencyToggle = document.createElement('div');
+  currencyToggle.className = 'currency-toggle';
+  currencyToggle.setAttribute('aria-label', 'Currency');
+  currencyToggle.innerHTML = `
+    <button type="button" class="currency-option" data-currency="KRW">KRW</button>
+    <span class="currency-sep" aria-hidden="true">/</span>
+    <button type="button" class="currency-option" data-currency="EUR">EUR</button>
+  `;
+  document.body.appendChild(currencyToggle);
+
+  const priceDisplays = document.querySelectorAll('.price-display');
+  const currencyOptions = currencyToggle.querySelectorAll('.currency-option');
+
+  const applyCurrency = currency => {
+    priceDisplays.forEach(el => {
+      const value = currency === 'EUR' ? el.dataset.eur : el.dataset.krw;
+      if (value) el.textContent = value;
+    });
+    currencyOptions.forEach(btn => {
+      btn.classList.toggle('is-active', btn.dataset.currency === currency);
+    });
+  };
+
+  let currentCurrency = localStorage.getItem('fluid-currency') || 'KRW';
+  applyCurrency(currentCurrency);
+
+  currencyOptions.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentCurrency = btn.dataset.currency;
+      localStorage.setItem('fluid-currency', currentCurrency);
+      applyCurrency(currentCurrency);
     });
   });
 });
