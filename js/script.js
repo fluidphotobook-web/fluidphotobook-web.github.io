@@ -179,6 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     renderControls();
+    reveal();
+    showRequestedSlide();
     previous.addEventListener('click', () => changeSlide(-1));
     next.addEventListener('click', () => changeSlide(1));
 

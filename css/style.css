@@ -298,6 +298,11 @@ a.grid-item .grid-meta {
   color: #FFF601;
 }
 
+.grid-title,
+.grid-price {
+  color: #0000ff;
+}
+
 .grid-price {
   opacity: 0.8;
   margin-top: 2px;
@@ -471,7 +476,6 @@ a.grid-item .grid-meta {
   align-items: center;
   gap: 6px;
   background: #fff;
-  border: 1px solid #000;
   padding: 8px 14px;
   box-sizing: border-box;
   font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
