@@ -173,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoTilesEl = viewer.querySelector('.video-tiles');
     const unmuteBtn = viewer.querySelector('.video-unmute-btn');
     const VIDEO_SRC = 'srcs/video/haircuts.mp4';
+    const VIDEO_POSTER = 'srcs/video/haircuts-poster.jpg';
     const VIDEO_ASPECT = 1734 / 1440;
 
     const buildVideoTiles = () => {
@@ -193,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el.autoplay = true;
         el.playsInline = true;
         el.preload = 'auto';
+        el.poster = VIDEO_POSTER;
         el.setAttribute('aria-hidden', 'true');
         el.src = VIDEO_SRC;
         videoTilesEl.appendChild(el);
@@ -294,6 +296,37 @@ document.addEventListener('DOMContentLoaded', () => {
     viewer.addEventListener('keydown', event => {
       if (event.key === 'ArrowLeft') { event.preventDefault(); changeSlide(-1); }
       if (event.key === 'ArrowRight') { event.preventDefault(); changeSlide(1); }
+    });
+
+    // Swipe (touch devices): a book/slideshow reads as swipeable, and a
+    // tap-only viewer on mobile leaves that expectation unmet. Track the
+    // touch as it moves so a clearly horizontal drag can preventDefault
+    // (stopping the page from scrolling sideways under the swipe), while a
+    // vertical one is left alone to scroll the page normally.
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchIsHorizontal = null;
+    viewer.addEventListener('touchstart', event => {
+      const touch = event.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchIsHorizontal = null;
+    }, { passive: true });
+    viewer.addEventListener('touchmove', event => {
+      const touch = event.touches[0];
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+      if (touchIsHorizontal === null && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+        touchIsHorizontal = Math.abs(dx) > Math.abs(dy);
+      }
+      if (touchIsHorizontal) event.preventDefault();
+    }, { passive: false });
+    viewer.addEventListener('touchend', event => {
+      if (!touchIsHorizontal) return;
+      const dx = event.changedTouches[0].clientX - touchStartX;
+      const SWIPE_THRESHOLD = 40;
+      if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+      changeSlide(dx < 0 ? 1 : -1);
     });
   });
 
