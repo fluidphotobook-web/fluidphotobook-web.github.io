@@ -280,8 +280,21 @@ body.video-active #request-btn {
   border-color: rgba(255,255,255,0.5) !important;
 }
 
+/* The single hero card on a detail page inherited .card's square aspect-ratio
+   (meant for the scrollable multi-card gallery), which left it — and the
+   description text riding along with it — stranded near the left side of
+   the strip with a large, unbalanced gap to the right. Let it use the full
+   strip width instead, so the description's right edge lands on the same
+   margin as the strip's left padding, keeping the whole row on one grid. */
+@media (min-width: 601px) {
+  /* border-box here so the added right padding is absorbed into the
+     strip's declared width instead of pushing the card past the viewport
+     edge and forcing an unintended horizontal scroll. */
+  #detail-body .strip { padding-right: 50px; box-sizing: border-box; }
+  #detail-body .card-reduced { aspect-ratio: unset; width: 100%; box-sizing: border-box; }
+}
 #detail-body .cover-container { gap: clamp(48px, 5vw, 96px); }
-#detail-body .cover-container .meta { margin-left: 0; }
+#detail-body .cover-container .meta { margin-left: auto; width: auto; max-width: 420px; flex: 0 0 auto; }
 
 .strip-about {
   position: fixed; left: var(--dividerX); top: 22vh; height: auto; width: calc(100vw - var(--dividerX));
