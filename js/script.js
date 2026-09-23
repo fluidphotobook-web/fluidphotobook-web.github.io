@@ -103,8 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
       srcFor: page => `srcs/img-web/vol2/fluidno2_${String(page).padStart(2, '0')}.avif`
     },
     haircuts: {
-      pages: [1, 2, 3, 4, 5, 6, 7, 8],
-      srcFor: page => `srcs/img/others/haircuts_inner_${page}.jpg`
+      pages: ['cover-front', 1, 2, 3, 4, 'cover-back'],
+      srcFor: page => Number.isInteger(page)
+        ? `srcs/img/others/haircuts_inner_${page}.jpg`
+        : `srcs/img/others/haircuts_${page}.jpg`
     }
   };
 
@@ -118,6 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const next = viewer.querySelector('.slide-arrow-next');
     let activeIndex = 0;
     let requestedIndex = 0;
+
+    // Haircuts pages resize the frame per slide (see applyFrameHeight below),
+    // so the arrows can't stay centered with top:50% or they'd jump up/down
+    // with it. Pin them, once, to the vertical center of the frame's default
+    // (pre-resize) height instead.
+    const baselineArrowTop = volume === 'haircuts' ? `${viewer.clientHeight / 2}px` : null;
+    if (baselineArrowTop) {
+      [previous, next].forEach(btn => { btn.style.top = baselineArrowTop; });
+    }
 
     pages.forEach((page, index) => {
       const image = document.createElement('img');
@@ -140,6 +151,83 @@ document.addEventListener('DOMContentLoaded', () => {
       viewer.classList.toggle('is-revealed', isRevealed);
     };
     const reveal = () => setCoverPosition(true);
+
+    // Haircuts pages mix landscape and portrait scans. Rather than letterboxing
+    // everything into one fixed-ratio frame (which shrinks portrait pages down
+    // to fit), size the frame to each page's own ratio at a constant width:
+    // landscape pages stay wide and short, portrait pages stay full-width and
+    // grow taller, and nothing gets cropped.
+    const fitsToImage = volume === 'haircuts';
+    const applyFrameHeight = image => {
+      if (!fitsToImage || !image.naturalWidth) return;
+      const width = viewer.clientWidth;
+      viewer.style.height = `${width * (image.naturalHeight / image.naturalWidth)}px`;
+    };
+
+    // Haircuts only: past the last page, a fullscreen tiled video loop takes
+    // over (leaving the logo/nav/book meta visible on top, in white). Any
+    // arrow press exits back to a cover.
+    let inVideoMode = false;
+    let videoTileEls = [];
+    let videoMuted = true;
+    const videoTilesEl = viewer.querySelector('.video-tiles');
+    const unmuteBtn = viewer.querySelector('.video-unmute-btn');
+    const VIDEO_SRC = 'srcs/video/haircuts.mp4';
+    const VIDEO_ASPECT = 1734 / 1440;
+
+    const buildVideoTiles = () => {
+      if (!videoTilesEl) return;
+      const needed = Math.max(1, Math.ceil(window.innerWidth / (window.innerHeight * VIDEO_ASPECT)));
+      while (videoTileEls.length < needed) {
+        const el = document.createElement('video');
+        el.muted = videoMuted;
+        el.defaultMuted = true;
+        el.loop = true;
+        el.autoplay = true;
+        el.playsInline = true;
+        el.preload = 'auto';
+        el.setAttribute('aria-hidden', 'true');
+        el.src = VIDEO_SRC;
+        videoTilesEl.appendChild(el);
+        videoTileEls.push(el);
+        if (inVideoMode) el.play().catch(() => {});
+      }
+      while (videoTileEls.length > needed) {
+        const el = videoTileEls.pop();
+        el.pause();
+        el.remove();
+      }
+    };
+    const handleResize = () => { if (inVideoMode) buildVideoTiles(); };
+
+    const enterVideoMode = () => {
+      inVideoMode = true;
+      document.body.classList.add('video-active');
+      // The arrows' baseline top is pinned to the small book frame; in video
+      // mode they should sit at the vertical center of the full viewport
+      // instead (handled by the body.video-active CSS), so clear the inline
+      // override.
+      [previous, next].forEach(btn => { btn.style.top = ''; });
+      buildVideoTiles();
+      videoTileEls.forEach(el => { el.currentTime = 0; el.play().catch(() => {}); });
+    };
+    const exitVideoMode = () => {
+      inVideoMode = false;
+      document.body.classList.remove('video-active');
+      if (baselineArrowTop) {
+        [previous, next].forEach(btn => { btn.style.top = baselineArrowTop; });
+      }
+      videoTileEls.forEach(el => el.pause());
+    };
+    if (fitsToImage && unmuteBtn) {
+      unmuteBtn.addEventListener('click', () => {
+        videoMuted = !videoMuted;
+        videoTileEls.forEach(el => { el.muted = videoMuted; });
+        unmuteBtn.textContent = videoMuted ? 'Unmute' : 'Mute';
+      });
+      window.addEventListener('resize', handleResize);
+    }
+
     const showRequestedSlide = async () => {
       const targetIndex = requestedIndex;
       const nextImage = images[targetIndex];
@@ -159,9 +247,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (targetIndex !== requestedIndex || !nextImage.complete || !nextImage.naturalWidth) return;
       images.forEach((image, index) => image.classList.toggle('is-active', index === targetIndex));
       activeIndex = targetIndex;
+      applyFrameHeight(nextImage);
       images[targetIndex + 1]?.decode?.().catch(() => {});
     };
     const changeSlide = direction => {
+      if (fitsToImage && inVideoMode) {
+        exitVideoMode();
+        requestedIndex = direction === 1 ? 0 : images.length - 1;
+        renderControls();
+        showRequestedSlide();
+        return;
+      }
       if (!viewer.classList.contains('is-revealed')) {
         reveal();
         if (direction === 1) {
@@ -171,6 +267,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         renderControls();
         showRequestedSlide();
+        return;
+      }
+      if (fitsToImage && direction === 1 && requestedIndex === images.length - 1) {
+        enterVideoMode();
         return;
       }
       requestedIndex = (requestedIndex + direction + images.length) % images.length;

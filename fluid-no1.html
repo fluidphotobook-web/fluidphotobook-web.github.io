@@ -5,13 +5,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>fluid N°1</title>
-  <link rel="stylesheet" as="style" crossorigin
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    /* Pretendard Regular font application for modal content */
     #request-modal {
-      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !important;
+      font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif !important;
     }
 
     #request-modal h2,
@@ -55,12 +52,7 @@
     .confirm-item {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid #eee;
-      padding: 8px 0;
-    }
-
-    .confirm-item:last-child {
-      border-bottom: none;
+      padding: 12px 0;
     }
 
     .confirm-label {
@@ -79,7 +71,7 @@
 <body id="detail-body">
 
   <div class="wrap">
-    <a id="logo" href="index.html">fluid</a>
+    <a id="logo" class="logo" href="index.html">fluid</a>
 
     <nav class="menu-top" aria-label="Secondary">
       <a href="index.html">fluidpaper</a>
@@ -110,33 +102,33 @@
             <a href="fluid-no1.html" class="meta-link"><span class="meta-1"><span class="meta-title">fluid
                   N°1</span><br />2024</span></a>
 
-            <div style="margin-top: 20px; width: 100%; border-top: 1px solid #000; padding-top: 10px; font-family: 'Pretendard Variable', Pretendard, sans-serif; font-size: 12px; line-height: 1.8;">
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 6px;">
+            <div style="margin-top: 20px; width: 100%; padding-top: 10px; font-family: Baskerville, ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 12px; line-height: 1.8;">
+              <div style="display: flex; justify-content: space-between; padding-bottom: 2px; margin-bottom: 4px;">
                 <span style="opacity: 0.5;">Price</span>
                 <span class="price-display" data-krw="30,000 KRW" data-eur="22 EUR">30,000 KRW</span>
               </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
+              <div style="display: flex; justify-content: space-between; padding-bottom: 4px; margin-bottom: 6px;">
                 <span style="opacity: 0.5;">Status</span>
                 <span style="font-family: Baskerville, ui-serif, Georgia, serif; font-style: italic;">Out of paper</span>
               </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 6px;">
+              <div style="display: flex; justify-content: space-between; padding-bottom: 2px; margin-bottom: 4px;">
                 <span style="opacity: 0.5;">Size</span>
                 <span>210 &times; 285mm</span>
               </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 6px;">
+              <div style="display: flex; justify-content: space-between; padding-bottom: 2px; margin-bottom: 0;">
                 <span style="opacity: 0.5;">Pages</span>
                 <span>90p</span>
               </div>
             </div>
 
             <p
-              style="font-family: 'Pretendard Variable', Pretendard, sans-serif; font-size: 12px; line-height: 1.7; text-align: left; margin-top: 20px; margin-bottom: 25px; opacity: 0.8; max-width: 450px;">
+              style="font-family: Baskerville, ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 12px; line-height: 1.7; text-align: left; margin-top: 20px; margin-bottom: 25px; opacity: 0.8; max-width: 450px;">
               fluid N°1 is the conceptual beginning of our photography practice.<br><br>
               A compilation of works defining the conceptual start of fluid.
             </p>
 
             <button id="request-btn" class="baskerville" type="button" disabled aria-disabled="true"
-              style="min-width: 80px; font-size: 12px; cursor: not-allowed; background: none; border: 1px solid var(--black); padding: 5px 15px; transition: background-color 0.2s, color 0.2s; color: #000; opacity: 0.45;">Out of paper</button>
+              style="min-width: 80px; font-family: Baskerville, ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 12px; cursor: not-allowed; background: none; border: 1px solid rgba(0,0,0,0.3); padding: 5px 14px; letter-spacing: 0.03em; transition: border-color 0.2s, color 0.2s; color: #000; opacity: 0.45;">Out of paper</button>
           </div>
         </div>
       </article>
@@ -153,7 +145,7 @@
 
       <!-- Step 1: Input Form -->
       <div id="step-form">
-        <div style="text-align: center; margin-bottom: 35px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+        <div style="text-align: center; margin-bottom: 35px; padding-bottom: 28px;">
           <h2 style="font-size: 24px; margin: 0; font-weight: normal; letter-spacing: 0.02em;">Request</h2>
           <p style="font-size: 13px; margin: 10px 0 0 0; opacity: 0.6;">fluid N°1</p>
         </div>
@@ -223,7 +215,7 @@
 
       <!-- Step 2: Confirmation -->
       <div id="step-confirm" style="display: none;">
-        <div style="text-align: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+        <div style="text-align: center; margin-bottom: 30px; padding-bottom: 28px;">
           <h2 style="font-size: 22px; margin: 0; font-weight: normal;">Confirm Your Request</h2>
           <p style="font-size: 13px; margin: 10px 0 0 0; opacity: 0.6;">Please review the information below</p>
         </div>
