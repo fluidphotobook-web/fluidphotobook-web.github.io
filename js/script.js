@@ -177,7 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const buildVideoTiles = () => {
       if (!videoTilesEl) return;
-      const needed = Math.max(1, Math.ceil(window.innerWidth / (window.innerHeight * VIDEO_ASPECT)));
+      // Desktop fills the viewport height and tiles sideways to cover the
+      // width; on a narrow phone that would crop most of the frame off, so
+      // fit the width instead (matching the mobile CSS) and tile downward
+      // to cover the height.
+      const isNarrow = window.innerWidth <= 600;
+      const needed = isNarrow
+        ? Math.max(1, Math.ceil(window.innerHeight / (window.innerWidth / VIDEO_ASPECT)))
+        : Math.max(1, Math.ceil(window.innerWidth / (window.innerHeight * VIDEO_ASPECT)));
       while (videoTileEls.length < needed) {
         const el = document.createElement('video');
         el.muted = videoMuted;

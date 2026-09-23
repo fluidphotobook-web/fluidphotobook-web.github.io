@@ -516,8 +516,14 @@ a.grid-item .grid-meta {
   #detail-body .book-viewer .cover-sheets { display: none; }
   #detail-body .book-viewer .slide-arrow,
   #detail-body .book-viewer .slide-count { opacity: 1; }
-  
-  .meta { 
+
+  /* Video finale: on a narrow phone, filling the height (like desktop) would
+     crop most of the video's width off-screen. Fit the width instead and
+     tile downward so the full frame is always visible. */
+  .video-tiles { flex-direction: column; align-items: flex-start; }
+  .video-tiles video { width: 100vw; height: auto; }
+
+  .meta {
     width: 100% !important; 
     margin-left: 0 !important; 
     margin-top: 24px !important; 
