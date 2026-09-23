@@ -504,7 +504,13 @@ a.grid-item .grid-meta {
   .card-last { margin: 40px 0 120px 0; height: auto; display: block; }
 
   .cover-container { flex-direction: column !important; align-items: flex-start !important; }
-  .img { width: 100% !important; flex-shrink: 0; }
+  /* Break the cover image out of the strip's 24px side padding so it always
+     runs edge-to-edge, full browser width, regardless of nesting. */
+  .img {
+    width: 100vw !important;
+    margin-left: calc(50% - 50vw);
+    flex-shrink: 0;
+  }
   .cover-container img { max-height: none !important; width: 100%; height: auto; object-fit: contain; }
   #detail-body .book-viewer { height: auto; min-height: 0; aspect-ratio: 4 / 5; }
   #detail-body .book-viewer .cover-sheets { display: none; }
