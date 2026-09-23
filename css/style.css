@@ -77,8 +77,12 @@ body::-webkit-scrollbar { display: none; }
 /* Detail page cover/meta block: pin to the top instead of the default
    vertical centering, so it stays put while the haircuts interior viewer's
    height changes between landscape and portrait pages (only the bottom edge
-   should move). */
-#detail-body .card-reduced { place-items: start center; padding-top: 5vh; }
+   should move). Desktop only: below 601px .card-reduced switches to a plain
+   block layout (see mobile block) where this centering trick doesn't apply
+   and the extra padding would just add unwanted top space. */
+@media (min-width: 601px) {
+  #detail-body .card-reduced { place-items: start center; padding-top: 5vh; }
+}
 .card-last { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 80vh; aspect-ratio: 0.5; margin-left: 1000px; margin-right: 450px; }
 
 .cover-container { display: flex; align-items: flex-start; width: 100%; height: auto; overflow: visible; position: relative; }
