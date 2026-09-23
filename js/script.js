@@ -297,7 +297,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── Currency toggle (KRW / EUR), bottom right ── */
+  /* ── Currency toggle (KRW / EUR) ──
+     Lives as one more line in the footer nav instead of its own floating
+     pill, so it doesn't sit on top of content (or the video finale) as a
+     separate white box. */
   const currencyToggle = document.createElement('div');
   currencyToggle.className = 'currency-toggle';
   currencyToggle.setAttribute('aria-label', 'Currency');
@@ -306,7 +309,8 @@ document.addEventListener('DOMContentLoaded', () => {
     <span class="currency-sep" aria-hidden="true">/</span>
     <button type="button" class="currency-option" data-currency="EUR">EUR</button>
   `;
-  document.body.appendChild(currencyToggle);
+  const menuNav = document.querySelector('.menu');
+  (menuNav || document.body).appendChild(currencyToggle);
 
   const priceDisplays = document.querySelectorAll('.price-display');
   const currencyOptions = currencyToggle.querySelectorAll('.currency-option');

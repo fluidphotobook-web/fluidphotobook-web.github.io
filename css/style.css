@@ -266,6 +266,8 @@ body.video-active .slide-count { display: none; }
 body.video-active #logo,
 body.video-active .menu a,
 body.video-active .menu-top a,
+body.video-active .menu .currency-option,
+body.video-active .menu .currency-sep,
 body.video-active .meta,
 body.video-active .meta a,
 body.video-active .meta span {
@@ -436,7 +438,10 @@ a.grid-item .grid-meta {
   .wrap { height: auto; min-height: 100dvh; overflow: visible; display: flex; flex-direction: column; }
   .divider { display: none !important; }
 
-  #logo { position: fixed; top: 24px; left: 24px; font-size: 16px; z-index: 2000; }
+  /* The script logo's swashes sit right at the glyph edges, so the dotted
+     underline (meant for a plain text link) just reads as clutter here, and
+     a couple of pixels of padding keeps the tails from touching the edge. */
+  #logo { position: fixed; top: 24px; left: 24px; font-size: 16px; z-index: 2000; text-decoration: none; padding: 0 3px; margin-left: -3px; }
   
   /* Landing State (index-body without .is-works) */
   #index-body:not(.is-works):not(.show-monographs) .strip { display: none !important; }
@@ -472,6 +477,7 @@ a.grid-item .grid-meta {
     flex-direction: column !important;
   }
   .menu a { color: #000 !important; text-decoration: none; }
+  .menu .currency-toggle { margin-top: 4px; }
   
   /* For Content Pages (Works/Detail/About): Relative at bottom of scroll */
   body.is-works .menu,
@@ -503,6 +509,11 @@ a.grid-item .grid-meta {
   }
   .card-last { margin: 40px 0 120px 0; height: auto; display: block; }
 
+  /* The generic 120px top padding leaves a big gap above the cover image;
+     detail pages don't have the landing page's centered logo/menu to clear,
+     so tighten it to just enough room to clear the fixed logo. */
+  #detail-body .strip { padding-top: 64px; }
+
   .cover-container { flex-direction: column !important; align-items: flex-start !important; }
   /* Break the cover image out of the strip's 24px side padding so it always
      runs edge-to-edge, full browser width, regardless of nesting. */
@@ -522,6 +533,7 @@ a.grid-item .grid-meta {
      tile downward so the full frame is always visible. */
   .video-tiles { flex-direction: column; align-items: flex-start; }
   .video-tiles video { width: 100vw; height: auto; }
+  .video-unmute-btn { top: 24px; right: 24px; }
 
   .meta {
     width: 100% !important; 
@@ -560,22 +572,15 @@ a.grid-item .grid-meta {
 }
 
 /* ============================================
-   CURRENCY TOGGLE (bottom right)
+   CURRENCY TOGGLE — a line in the footer nav, not a floating pill
    ============================================ */
 .currency-toggle {
-  position: fixed;
-  right: 48px;
-  bottom: 40px;
-  z-index: 5000;
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #fff;
-  padding: 8px 14px;
-  box-sizing: border-box;
   font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 14px;
-  line-height: 1;
+  font-size: inherit;
+  line-height: inherit;
   letter-spacing: 0.02em;
   user-select: none;
 }
