@@ -102,7 +102,7 @@ body::-webkit-scrollbar { display: none; }
 
 /* --- Issue interior viewer --- */
 #detail-body .book-viewer {
-  width: min(44vw, 620px);
+  width: min(48vw, 680px);
   height: min(78vh, 820px);
   min-height: 460px;
   align-self: flex-start;
@@ -280,21 +280,19 @@ body.video-active #request-btn {
   border-color: rgba(255,255,255,0.5) !important;
 }
 
-/* The single hero card on a detail page inherited .card's square aspect-ratio
-   (meant for the scrollable multi-card gallery), which left it — and the
-   description text riding along with it — stranded near the left side of
-   the strip with a large, unbalanced gap to the right. Let it use the full
-   strip width instead, so the description's right edge lands on the same
-   margin as the strip's left padding, keeping the whole row on one grid. */
+/* The single hero card on a detail page inherited .card's square
+   aspect-ratio (built for the scrollable multi-card gallery), which caps
+   its width at the same value as its height. With a wider viewer image
+   that cap leaves no room for the description, so let the card size to
+   fit its content (image + gap + text) instead of forcing a square. */
 @media (min-width: 601px) {
-  /* border-box here so the added right padding is absorbed into the
-     strip's declared width instead of pushing the card past the viewport
-     edge and forcing an unintended horizontal scroll. */
-  #detail-body .strip { padding-right: 50px; box-sizing: border-box; }
-  #detail-body .card-reduced { aspect-ratio: unset; width: 100%; box-sizing: border-box; }
+  #detail-body .card-reduced { aspect-ratio: unset; width: fit-content; justify-self: start; }
 }
 #detail-body .cover-container { gap: clamp(48px, 5vw, 96px); }
-#detail-body .cover-container .meta { margin-left: auto; width: auto; max-width: 420px; flex: 0 0 auto; }
+/* Fixed column width: without it, fit-content sizing on the card lets the
+   longest row value (e.g. "Pamphlet Stitch Binded") stretch the card past
+   the viewport edge instead of wrapping. */
+#detail-body .cover-container .meta { margin-left: 0; width: 260px; flex: 0 0 auto; }
 
 .strip-about {
   position: fixed; left: var(--dividerX); top: 22vh; height: auto; width: calc(100vw - var(--dividerX));
