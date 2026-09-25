@@ -459,14 +459,16 @@ a.grid-item .grid-meta {
    MOBILE (max-width: 600px)
    ============================================ */
 @media (max-width: 600px) {
-  html, body { height: 100%; overflow-y: auto !important; }
+  /* Let the document itself scroll (not body as a scroll box) so iOS Safari
+     can draw page content under its translucent bottom toolbar. */
+  html, body { height: auto; overflow-y: visible !important; }
   .wrap { height: auto; min-height: 100dvh; overflow: visible; display: flex; flex-direction: column; }
   .divider { display: none !important; }
 
   /* The script logo's swashes sit right at the glyph edges, so the dotted
      underline (meant for a plain text link) just reads as clutter here, and
      a couple of pixels of padding keeps the tails from touching the edge. */
-  #logo { position: fixed; top: 24px; left: 24px; font-size: 32px; z-index: 2000; text-decoration: none; padding: 0.25em 0.3em; margin: -0.25em 0 0 -0.3em; }
+  #logo { position: fixed; top: calc(24px + env(safe-area-inset-top)); left: 24px; font-size: 32px; z-index: 2000; text-decoration: none; padding: 0.25em 0.3em; margin: -0.25em 0 0 -0.3em; }
   
   /* Landing State (index-body without .is-works) */
   #index-body:not(.is-works):not(.show-monographs) .strip { display: none !important; }
@@ -489,7 +491,7 @@ a.grid-item .grid-meta {
   .menu {
     position: fixed !important;
     left: 24px !important;
-    bottom: 24px !important;
+    bottom: calc(24px + env(safe-area-inset-bottom)) !important;
     top: auto !important;
     right: auto !important;
     padding: 0 !important;
@@ -514,7 +516,7 @@ a.grid-item .grid-meta {
     bottom: auto !important;
     top: auto !important;
     margin-top: 60px !important;
-    padding: 0 0 60px 24px !important;
+    padding: 0 0 calc(60px + env(safe-area-inset-bottom)) 24px !important;
     order: 3;
   }
 
@@ -697,4 +699,15 @@ div.grid-item .grid-price { color: var(--gray50); }
   body > * { order: 2; }
   body > .menu { order: 3; }
   body > .scroll-spacer { order: 4; display: none; }
+}
+
+/* Video finale reaches under the mobile browser toolbars (large viewport). */
+.video-tiles { bottom: auto; height: 100vh; height: 100lvh; }
+@media (max-width: 600px) {
+  .video-unmute-btn { top: calc(24px + env(safe-area-inset-top)); }
+}
+@media (max-width: 600px) {
+  .strip, .strip-about { padding-top: calc(120px + env(safe-area-inset-top)); }
+  #detail-body .strip { padding-top: calc(84px + env(safe-area-inset-top)); }
+  body.show-monographs .strip { padding-top: calc(80px + env(safe-area-inset-top)) !important; }
 }
