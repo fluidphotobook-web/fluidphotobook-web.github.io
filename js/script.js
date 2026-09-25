@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ── monographs 뷰 토글 로직 ── */
-  const GRID_VIEWS = ['monographs', 'zines'];
+  // 'zines' is withheld until release; add it back here to re-enable ?view=zines.
+  const GRID_VIEWS = ['monographs'];
   const applyView = view => {
     const isGrid = GRID_VIEWS.includes(view);
     document.body.classList.toggle('show-monographs', isGrid);
