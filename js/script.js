@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Tile for the large viewport so the loop also fills the area under
       // mobile browser toolbars.
       const tallest = Math.max(window.innerHeight, window.screen?.height || 0,
-        isNarrow ? document.documentElement.scrollHeight : 0);
+        isNarrow ? document.documentElement.scrollHeight + window.innerHeight : 0);
       const needed = isNarrow
         ? Math.max(1, Math.ceil(tallest / (window.innerWidth / VIDEO_ASPECT)))
         : Math.max(1, Math.ceil(window.innerWidth / (window.innerHeight * VIDEO_ASPECT)));
@@ -231,6 +231,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
     const handleResize = () => { if (inVideoMode) buildVideoTiles(); };
+    // Page height settles after fonts/images load; keep the tile column tall enough.
+    if (fitsToImage && 'ResizeObserver' in window) {
+      new ResizeObserver(handleResize).observe(document.body);
+    }
 
     const enterVideoMode = () => {
       inVideoMode = true;

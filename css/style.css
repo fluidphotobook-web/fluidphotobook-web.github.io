@@ -741,3 +741,14 @@ html:has(body.video-active) { background: #000; }
   .video-tiles video { margin: 0 0 -1px 0; width: 100vw; }
   body.video-active .video-tiles { background: #000; }
 }
+
+/* iOS Safari: with no fixed elements at the screen edges it draws the page
+   itself under the status bar/toolbar. On phones in video mode the logo and
+   Unmute scroll with the page, the body is see-through, and the tile column
+   stretches to the body's full height (bottom: 0) so nothing white shows. */
+@media (max-width: 600px) {
+  body.video-active { background: transparent; }
+  body.video-active #logo,
+  body.video-active .video-unmute-btn { position: absolute; }
+  body.video-active .video-tiles { bottom: 0; min-height: 100lvh; overflow: hidden; }
+}
