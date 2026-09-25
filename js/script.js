@@ -257,27 +257,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // under Safari's bars at both ends, and stop scrolling at the logo/footer.
     let bleedOn = false;
     const bleedPx = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bleed')) || 0;
-    const clampScroll = () => {
+    let settleTimer = null;
+    const settleScroll = () => {
       if (!bleedOn) return;
       const b = bleedPx();
       const max = document.documentElement.scrollHeight - window.innerHeight - b;
-      if (window.scrollY < b) window.scrollTo(0, b);
-      else if (window.scrollY > max) window.scrollTo(0, Math.max(b, max));
+      const target = window.scrollY < b ? b : window.scrollY > max ? Math.max(b, max) : null;
+      if (target !== null) window.scrollTo({ top: target, behavior: 'smooth' });
     };
+    // Fallback if snapping didn't pull the page back out of the bleed.
+    const onBleedScroll = () => {
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(settleScroll, 140);
+    };
+    let anchors = [];
     const startBleed = () => {
       if (!isIOSWebKit || window.innerWidth > 600 || bleedOn) return;
       bleedOn = true;
       document.documentElement.classList.add('ios-bleed');
+      anchors = ['top', 'bottom'].map(pos => {
+        const el = document.createElement('div');
+        el.className = `bleed-anchor bleed-anchor-${pos}`;
+        el.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(el);
+        return el;
+      });
       requestAnimationFrame(() => window.scrollTo(0, bleedPx()));
-      window.addEventListener('scroll', clampScroll, { passive: true });
-      window.addEventListener('touchend', clampScroll, { passive: true });
+      window.addEventListener('scroll', onBleedScroll, { passive: true });
     };
     const stopBleed = () => {
       if (!bleedOn) return;
       bleedOn = false;
       document.documentElement.classList.remove('ios-bleed');
-      window.removeEventListener('scroll', clampScroll);
-      window.removeEventListener('touchend', clampScroll);
+      anchors.forEach(el => el.remove());
+      anchors = [];
+      window.removeEventListener('scroll', onBleedScroll);
     };
     const startBarTint = () => {
       if (!isIOSWebKit || tintTimer) return;
