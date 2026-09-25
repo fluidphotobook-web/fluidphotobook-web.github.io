@@ -731,7 +731,7 @@ div.grid-item .grid-price { color: var(--gray50); }
 /* No rubber-band past the top/bottom: scrolling stops with the logo and
    footer in their resting positions instead of revealing the page colour. */
 html, body { overscroll-behavior: none; }
-html:has(body.video-active) { background: #000; }
+
 
 /* Seamless video tiles: neighbouring tiles overlap by a pixel so sub-pixel
    rounding never opens a hairline between them. */

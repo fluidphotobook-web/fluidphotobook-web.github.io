@@ -236,12 +236,38 @@ document.addEventListener('DOMContentLoaded', () => {
       new ResizeObserver(handleResize).observe(document.body);
     }
 
+    // iOS Safari fills the status bar with the root background colour while
+    // the page sits at scroll 0 (and during overscroll). Keep that colour in
+    // step with the footage so the bar reads as part of the video.
+    const isIOSWebKit = window.CSS?.supports?.('-webkit-touch-callout', 'none');
+    let tintTimer = null;
+    const tintCanvas = document.createElement('canvas');
+    tintCanvas.width = tintCanvas.height = 1;
+    const tintCtx = tintCanvas.getContext('2d', { willReadFrequently: true });
+    const sampleTint = () => {
+      const el = videoTileEls[0];
+      if (!el || el.readyState < 2) return;
+      try {
+        tintCtx.drawImage(el, 0, 0, el.videoWidth, el.videoHeight * 0.1, 0, 0, 1, 1);
+        const [r, g, b] = tintCtx.getImageData(0, 0, 1, 1).data;
+        document.documentElement.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+      } catch (_) {}
+    };
+    const startBarTint = () => {
+      if (!isIOSWebKit || tintTimer) return;
+      sampleTint();
+      tintTimer = setInterval(sampleTint, 250);
+    };
+    const stopBarTint = () => {
+      clearInterval(tintTimer);
+      tintTimer = null;
+      document.documentElement.style.backgroundColor = '';
+    };
+
     const enterVideoMode = () => {
       inVideoMode = true;
       // Bottom rubber-band shows the root background: tile the poster there.
-      if (window.innerWidth <= 600 && VIDEO_POSTER) {
-        document.documentElement.style.background = `#000 url("${VIDEO_POSTER}") top center / 100vw auto repeat-y`;
-      }
+      startBarTint();
       document.body.classList.add('video-active');
       // The arrows only render at full opacity once .is-revealed is set (see
       // .book-viewer.is-revealed .slide-arrow); without it they'd stay
@@ -258,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const exitVideoMode = () => {
       inVideoMode = false;
-      document.documentElement.style.background = '';
+      stopBarTint();
       document.body.classList.remove('video-active');
       if (baselineArrowTop) {
         arrowButtons.forEach(btn => { btn.style.top = baselineArrowTop; });
