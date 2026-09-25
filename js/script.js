@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Tile for the large viewport so the loop also fills the area under
       // mobile browser toolbars.
       const tallest = Math.max(window.innerHeight, window.screen?.height || 0,
-        isNarrow ? document.documentElement.scrollHeight + window.innerHeight : 0);
+        isNarrow ? document.documentElement.scrollHeight + 2 * window.innerHeight : 0);
       const needed = isNarrow
         ? Math.max(1, Math.ceil(tallest / (window.innerWidth / VIDEO_ASPECT)))
         : Math.max(1, Math.ceil(window.innerWidth / (window.innerHeight * VIDEO_ASPECT)));
@@ -238,6 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const enterVideoMode = () => {
       inVideoMode = true;
+      // Bottom rubber-band shows the root background: tile the poster there.
+      if (window.innerWidth <= 600 && VIDEO_POSTER) {
+        document.documentElement.style.background = `#000 url("${VIDEO_POSTER}") top center / 100vw auto repeat-y`;
+      }
       document.body.classList.add('video-active');
       // The arrows only render at full opacity once .is-revealed is set (see
       // .book-viewer.is-revealed .slide-arrow); without it they'd stay
@@ -254,6 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const exitVideoMode = () => {
       inVideoMode = false;
+      document.documentElement.style.background = '';
       document.body.classList.remove('video-active');
       if (baselineArrowTop) {
         arrowButtons.forEach(btn => { btn.style.top = baselineArrowTop; });
