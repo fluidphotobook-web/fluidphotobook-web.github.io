@@ -253,6 +253,32 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
       } catch (_) {}
     };
+    // Keep the document scrolled inside the bleed so the footage stays drawn
+    // under Safari's bars at both ends, and stop scrolling at the logo/footer.
+    let bleedOn = false;
+    const bleedPx = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bleed')) || 0;
+    const clampScroll = () => {
+      if (!bleedOn) return;
+      const b = bleedPx();
+      const max = document.documentElement.scrollHeight - window.innerHeight - b;
+      if (window.scrollY < b) window.scrollTo(0, b);
+      else if (window.scrollY > max) window.scrollTo(0, Math.max(b, max));
+    };
+    const startBleed = () => {
+      if (!isIOSWebKit || window.innerWidth > 600 || bleedOn) return;
+      bleedOn = true;
+      document.documentElement.classList.add('ios-bleed');
+      requestAnimationFrame(() => window.scrollTo(0, bleedPx()));
+      window.addEventListener('scroll', clampScroll, { passive: true });
+      window.addEventListener('touchend', clampScroll, { passive: true });
+    };
+    const stopBleed = () => {
+      if (!bleedOn) return;
+      bleedOn = false;
+      document.documentElement.classList.remove('ios-bleed');
+      window.removeEventListener('scroll', clampScroll);
+      window.removeEventListener('touchend', clampScroll);
+    };
     const startBarTint = () => {
       if (!isIOSWebKit || tintTimer) return;
       sampleTint();
@@ -268,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
       inVideoMode = true;
       // Bottom rubber-band shows the root background: tile the poster there.
       startBarTint();
+      startBleed();
       document.body.classList.add('video-active');
       // The arrows only render at full opacity once .is-revealed is set (see
       // .book-viewer.is-revealed .slide-arrow); without it they'd stay
@@ -285,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const exitVideoMode = () => {
       inVideoMode = false;
       stopBarTint();
+      stopBleed();
       document.body.classList.remove('video-active');
       if (baselineArrowTop) {
         arrowButtons.forEach(btn => { btn.style.top = baselineArrowTop; });

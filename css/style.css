@@ -754,3 +754,11 @@ html, body { overscroll-behavior: none; }
      reveals more footage rather than a background colour. */
   body.video-active .video-tiles { top: -100lvh; bottom: 0; min-height: 200lvh; overflow: hidden; }
 }
+
+/* iOS video pages: Safari only draws the page beneath its bars while the
+   document is scrolled, so pad the page by a bleed above and below and let
+   script.js hold the scroll inside [bleed, end - bleed]. */
+html.ios-bleed { --bleed: 120px; }
+html.ios-bleed body.video-active { padding-top: var(--bleed); padding-bottom: var(--bleed); box-sizing: border-box; }
+html.ios-bleed body.video-active #logo { top: calc(var(--bleed) + 24px + env(safe-area-inset-top)); }
+html.ios-bleed body.video-active .video-unmute-btn { top: calc(var(--bleed) + 24px + env(safe-area-inset-top)); }
