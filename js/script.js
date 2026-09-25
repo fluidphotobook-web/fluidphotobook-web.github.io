@@ -202,7 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const isNarrow = window.innerWidth <= 600;
       // Tile for the large viewport so the loop also fills the area under
       // mobile browser toolbars.
-      const tallest = Math.max(window.innerHeight, window.screen?.height || 0);
+      const tallest = Math.max(window.innerHeight, window.screen?.height || 0,
+        isNarrow ? document.documentElement.scrollHeight : 0);
       const needed = isNarrow
         ? Math.max(1, Math.ceil(tallest / (window.innerWidth / VIDEO_ASPECT)))
         : Math.max(1, Math.ceil(window.innerWidth / (window.innerHeight * VIDEO_ASPECT)));

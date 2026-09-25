@@ -711,3 +711,19 @@ div.grid-item .grid-price { color: var(--gray50); }
   #detail-body .strip { padding-top: calc(84px + env(safe-area-inset-top)); }
   body.show-monographs .strip { padding-top: calc(80px + env(safe-area-inset-top)) !important; }
 }
+
+/* iOS Safari tints its bars with the colour of fixed elements touching the
+   screen edges instead of drawing them underneath. On phones the video is
+   laid out in normal page flow (absolute, full document height) so the
+   footage itself shows through behind the status bar and toolbar. */
+@media (max-width: 600px) {
+  body.video-active { position: relative; }
+  body.video-active .video-tiles {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    bottom: auto;
+    height: auto;
+    min-height: 100lvh;
+    background: transparent;
+  }
+}
