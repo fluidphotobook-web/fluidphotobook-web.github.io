@@ -34,22 +34,24 @@ body::-webkit-scrollbar { display: none; }
 
 .wrap { position: relative; height: 100vh; overflow: hidden; z-index: 100; }
 
-#logo { position: fixed; top: 40px; left: 48px; z-index: 1000; text-decoration: underline dotted; text-underline-offset: 3px; }
+/* The script face's swashes overhang its em box; Safari clips glyph ink
+   to the line box, so give the box room on every side and offset it back. */
+#logo { position: fixed; top: 40px; left: 48px; z-index: 1000; text-decoration: none; display: inline-block; padding: 0.25em 0.3em; margin: -0.25em 0 0 -0.3em; overflow: visible; }
 .logo {
   margin: 0;
   font-family: Exposure80Italic, Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 56px; line-height: 0.9; letter-spacing: 0; user-select: none; z-index: 999;
+  font-size: 56px; line-height: 1.2; letter-spacing: 0; user-select: none; z-index: 999;
 }
 
 .menu {
-  position: fixed; left: 48px; bottom: 42px; display: flex; flex-direction: column; gap: 0; 
+  position: fixed; z-index: 1000; left: 48px; bottom: 42px; display: flex; flex-direction: column; gap: 0; 
   font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 16px; line-height: 33px; text-align: left;
 }
 .menu a:hover { text-decoration: underline; }
 
 .menu-top {
-  position: fixed; left: 48px; top: 25%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0; 
+  position: fixed; z-index: 1000; left: 48px; top: 25%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 0; 
   font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 16px; line-height: 33px; text-align: left;
 }
@@ -68,10 +70,10 @@ body::-webkit-scrollbar { display: none; }
 .strip {
   position: fixed; left: var(--dividerX); top: 0; height: 100vh; width: calc(100vw - var(--dividerX));
   overflow-x: auto; overflow-y: hidden; display: flex; align-items: center; gap: 7vw; 
-  padding: 0 6vw 0 50px; -webkit-overflow-scrolling: touch;
+  padding: 0 6vw 0 50px;
 }
 
-.card { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 60vh; aspect-ratio: 1; }
+.card { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 68vh; aspect-ratio: 1; }
 .card-reduced { height: 90vh; }
 
 /* Detail page cover/meta block: pin to the top instead of the default
@@ -81,7 +83,7 @@ body::-webkit-scrollbar { display: none; }
    block layout (see mobile block) where this centering trick doesn't apply
    and the extra padding would just add unwanted top space. */
 @media (min-width: 601px) {
-  #detail-body .card-reduced { place-items: start center; padding-top: 5vh; }
+  #detail-body .card-reduced { place-items: start center; padding-top: 40px; }
 }
 .card-last { flex: 0 0 auto; scroll-snap-align: start; position: relative; display: grid; place-items: center; height: 80vh; aspect-ratio: 0.5; margin-left: 1000px; margin-right: 450px; }
 
@@ -102,9 +104,13 @@ body::-webkit-scrollbar { display: none; }
 
 /* --- Issue interior viewer --- */
 #detail-body .book-viewer {
-  width: min(48vw, 680px);
-  height: min(78vh, 820px);
-  min-height: 460px;
+  /* Height of a portrait haircuts page (1920x2688) spans from the logo's
+     top (40px) to the footer's bottom (42px); width is capped so the whole
+     card (left column + strip padding + viewer + gap + 260px meta + right
+     padding) never leaves the viewport. */
+  --page-w: min(calc((100vh - 82px) / 1.4), calc(75vw - 406px));
+  width: var(--page-w);
+  height: calc(var(--page-w) * 1.4);
   align-self: flex-start;
   overflow: hidden;
   isolation: isolate;
@@ -122,20 +128,15 @@ body::-webkit-scrollbar { display: none; }
   top: 0;
   right: auto;
   bottom: 0;
-  left: 50%;
-  width: auto;
+  left: 0;
+  width: 100%;
   height: 100%;
-  aspect-ratio: 2480 / 3391;
-  transform: translateX(-50%);
 }
-
-.book-viewer[data-volume="2"] .interior-slideshow { aspect-ratio: 3307 / 4134; }
-.book-viewer[data-volume="haircuts"] .interior-slideshow { aspect-ratio: auto; width: 100%; left: 0; transform: none; }
 
 /* Haircuts frame height is set per-slide in JS (applyFrameHeight) so portrait
    pages render at the same width as landscape pages and grow downward
    instead of being squeezed narrower to fit a fixed-ratio box. */
-.book-viewer[data-volume="haircuts"].is-revealed { overflow: visible; }
+#detail-body .book-viewer.is-revealed { overflow: visible; }
 
 .interior-slideshow img {
   position: absolute !important;
@@ -203,8 +204,21 @@ body::-webkit-scrollbar { display: none; }
 .slide-arrow-next svg { transform: rotate(180deg); }
 .slide-arrow:hover { opacity: .85 !important; }
 .slide-arrow:focus-visible { opacity: 1; outline: 1px solid #fff; outline-offset: 3px; }
-.slide-arrow-prev { left: 14px; }
-.slide-arrow-next { right: 14px; }
+.slide-arrow svg { display: none; }
+/* No drawn arrows: each half of the image is the click target, and the
+   cursor becomes a thin chevron (white with a soft dark edge so it reads
+   on light and dark pages alike). */
+.slide-arrow {
+  top: 0 !important;
+  bottom: 0;
+  height: auto;
+  width: 50%;
+  transform: none;
+  opacity: 1;
+}
+.slide-arrow:hover, .slide-arrow:focus-visible { opacity: 1 !important; outline: none; }
+.slide-arrow-prev { left: 0; cursor: none; }
+.slide-arrow-next { right: 0; cursor: none; }
 .book-viewer:hover .slide-arrow,
 .book-viewer.is-revealed .slide-arrow { opacity: 1; }
 
@@ -223,10 +237,12 @@ body::-webkit-scrollbar { display: none; }
 .book-viewer.is-revealed .slide-count { opacity: 1; }
 
 /* --- Video takeover: past the back cover, a tiled fullscreen loop --- */
+/* Lives directly under <body> (moved there by script.js) and sits below
+   .wrap (z-index 100), so the arrows and meta inside .wrap stay on top. */
 .video-tiles {
   position: fixed;
   inset: 0;
-  z-index: 500;
+  z-index: 50;
   display: none;
   overflow: hidden;
   background: #000;
@@ -255,13 +271,19 @@ body.video-active .video-unmute-btn { display: block; }
 
 body.video-active .slide-arrow {
   position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  height: 100vh;
+  width: 50vw;
+  transform: none;
   z-index: 2100;
 }
-body.video-active .slide-arrow-prev { left: 24px; }
-body.video-active .slide-arrow-next { right: 24px; }
+body.video-active .slide-arrow-prev { left: 0; }
+body.video-active .slide-arrow-next { right: 0; }
 body.video-active .slide-count { display: none; }
+body.video-active #detail-body .book-viewer,
+#detail-body.video-active .book-viewer { background: transparent; }
+body.video-active .interior-slideshow,
+body.video-active .cover-sheets { visibility: hidden; }
 
 body.video-active #logo,
 body.video-active .menu a,
@@ -290,7 +312,8 @@ body.video-active #request-btn {
 @media (min-width: 601px) {
   #detail-body .card-reduced { aspect-ratio: unset; width: fit-content; justify-self: start; }
 }
-#detail-body .cover-container { gap: clamp(48px, 5vw, 96px); }
+#detail-body .cover-container { gap: 48px; }
+@media (min-width: 601px) { #detail-body .strip { padding-right: 48px; } }
 /* Fixed column width: without it, fit-content sizing on the card lets the
    longest row value (e.g. "Pamphlet Stitch Binded") stretch the card past
    the viewport edge instead of wrapping. */
@@ -299,7 +322,7 @@ body.video-active #request-btn {
 .strip-about {
   position: fixed; left: var(--dividerX); top: 22vh; height: auto; width: calc(100vw - var(--dividerX));
   overflow-x: auto; overflow-y: hidden; display: flex; align-items: flex-start; gap: 7vw; 
-  padding: 0 6vw 0 50px; -webkit-overflow-scrolling: touch;
+  padding: 0 6vw 0 50px;
 }
 .strip-about p { line-height: 1.6; margin-top: 0; margin-bottom: 4px; }
 
@@ -338,6 +361,8 @@ body.show-monographs .fluidpaper-item {
   display: none !important;
 }
 
+body:not(.show-zines) .zines-grid,
+body.show-zines .mono-grid,
 body:not(.show-monographs) .monographs-grid {
   display: none !important;
 }
@@ -477,7 +502,7 @@ a.grid-item .grid-meta {
     flex-direction: column !important;
   }
   .menu a { color: #000 !important; text-decoration: none; }
-  .menu .currency-toggle { margin-top: 4px; }
+  .menu .currency-toggle { margin-top: 0; margin-bottom: 16px; }
   
   /* For Content Pages (Works/Detail/About): Relative at bottom of scroll */
   body.is-works .menu,
@@ -498,7 +523,7 @@ a.grid-item .grid-meta {
     position: relative; top: 0; left: 0; width: 100%; height: auto;
     overflow-y: visible; overflow-x: hidden; display: flex; flex-direction: column;
     padding: 120px 24px 0 24px; box-sizing: border-box; gap: 80px; z-index: 100;
-    -webkit-overflow-scrolling: touch;
+   
     order: 2;
   }
   
@@ -585,7 +610,12 @@ a.grid-item .grid-meta {
   font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 12px;
   line-height: 1;
-  margin-top: 6px;
+  /* Sits above the footer links (order: -1) with a gap noticeably wider than
+     the footer's own 33px line-height, so it reads as a separate control
+     rather than another row in the nav list. */
+  margin-top: 0;
+  margin-bottom: 22px;
+  order: -1;
   letter-spacing: 0.02em;
   user-select: none;
 }
@@ -608,3 +638,54 @@ a.grid-item .grid-meta {
 .currency-option.is-active { opacity: 0.85; }
 
 .currency-sep { opacity: 0.25; }
+
+/* Index fluidpaper thumbnails: identical height for every cover, centered
+   in the strip so top and bottom margins match. */
+@media (min-width: 601px) {
+  #index-body .card { height: auto; aspect-ratio: auto; }
+  #index-body .card .img { width: auto; }
+  #index-body .card .cover-container img { height: 76vh; width: auto; max-height: none; }
+  #index-body .card .cover-container .cover-back { width: 100%; height: 100%; }
+  #index-body .card .meta { width: 140px; flex: 0 0 auto; }
+}
+
+.slide-count { display: none !important; }
+
+/* Interior pages can be taller than the viewport; let detail pages scroll. */
+@media (min-width: 601px) {
+  #detail-body .strip { overflow-y: auto; align-items: flex-start; }
+  #detail-body .card-reduced { height: auto; padding-bottom: 8vh; }
+}
+
+/* prev/next label drawn by script.js in place of the system cursor.
+   Difference blending renders it as the inverse of whatever is beneath. */
+.text-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 30000;
+  pointer-events: none;
+  display: none;
+  color: #fff;
+  mix-blend-mode: difference;
+  font-family: Baskerville, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 14px;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+.text-cursor.is-visible { display: block; }
+
+/* Zine detail pages: A5-proportioned frame until images arrive. */
+#detail-body .zine-placeholder {
+  width: min(calc((100vh - 82px) / 1.4189), calc(75vw - 406px));
+  aspect-ratio: 148 / 210;
+  background: #e5e5e5;
+  flex: 0 0 auto;
+}
+@media (max-width: 600px) {
+  #detail-body .zine-placeholder { width: 100vw !important; }
+}
+
+/* Unlinked (N/A) grid slots read as inactive. */
+div.grid-item .grid-title,
+div.grid-item .grid-price { color: var(--gray50); }

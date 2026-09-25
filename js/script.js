@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   strips.forEach(strip => {
     strip.addEventListener('wheel', (e) => {
       if (document.body.classList.contains('show-monographs')) return;
+      if (document.body.id === 'detail-body') return;
       if (window.innerWidth > 1024) {
         if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
           e.preventDefault();
@@ -44,29 +45,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ── monographs 뷰 토글 로직 ── */
+  const GRID_VIEWS = ['monographs', 'zines'];
+  const applyView = view => {
+    const isGrid = GRID_VIEWS.includes(view);
+    document.body.classList.toggle('show-monographs', isGrid);
+    document.body.classList.toggle('show-zines', view === 'zines');
+  };
   const updateViewFromURL = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('view') === 'monographs') {
-      document.body.classList.add('show-monographs');
-    } else {
-      document.body.classList.remove('show-monographs');
-    }
+    applyView(new URLSearchParams(window.location.search).get('view'));
   };
 
-  // 초기 로드 시 체크
   updateViewFromURL();
 
-  // monographs 링크 클릭 시 새로고침 없는 전환
-  const monographsLinks = document.querySelectorAll('.monographs');
-  monographsLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      if (document.body.id === 'index-body') {
+  GRID_VIEWS.forEach(view => {
+    document.querySelectorAll(`.${view}`).forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (document.body.id !== 'index-body') return;
         e.preventDefault();
-        document.body.classList.add('show-monographs');
+        applyView(view);
         const url = new URL(window.location);
-        url.searchParams.set('view', 'monographs');
+        url.searchParams.set('view', view);
         window.history.pushState({}, '', url);
-      }
+      });
     });
   });
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (document.body.id === 'index-body') {
         if (document.body.classList.contains('show-monographs') || (isTouchDevice() && !document.body.classList.contains('is-works'))) {
           e.preventDefault();
-          document.body.classList.remove('show-monographs');
+          document.body.classList.remove('show-monographs', 'show-zines');
           if (isTouchDevice() && !document.body.classList.contains('is-works')) {
             document.body.classList.add('is-works');
           }
@@ -107,7 +107,15 @@ document.addEventListener('DOMContentLoaded', () => {
       srcFor: page => Number.isInteger(page)
         ? `srcs/img/others/haircuts_inner_${page}.jpg`
         : `srcs/img/others/haircuts_${page}.jpg`
-    }
+    },
+    leo: { pages: [], srcFor: () => '' },
+    sihun: { pages: [], srcFor: () => '' }
+  };
+
+  const videoConfig = {
+    haircuts: { src: 'srcs/video/haircuts.mp4', poster: 'srcs/video/haircuts-poster.jpg', aspect: 1734 / 1440 },
+    leo: { src: 'srcs/video/leo.mp4', poster: 'srcs/video/leo-poster.jpg', aspect: 2400 / 3200 },
+    sihun: { src: 'srcs/video/sihun.mp4', poster: 'srcs/video/sihun-poster.jpg', aspect: 2740 / 2048 }
   };
 
   document.querySelectorAll('.book-viewer').forEach(viewer => {
@@ -118,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const count = viewer.querySelector('.slide-count');
     const previous = viewer.querySelector('.slide-arrow-prev');
     const next = viewer.querySelector('.slide-arrow-next');
+    const arrowButtons = [previous, next].filter(Boolean);
     let activeIndex = 0;
     let requestedIndex = 0;
 
@@ -125,15 +134,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // so the arrows can't stay centered with top:50% or they'd jump up/down
     // with it. Pin them, once, to the vertical center of the frame's default
     // (pre-resize) height instead.
-    const baselineArrowTop = volume === 'haircuts' ? `${viewer.clientHeight / 2}px` : null;
+    const baselineArrowTop = `${viewer.clientHeight / 2}px`;
     if (baselineArrowTop) {
-      [previous, next].forEach(btn => { btn.style.top = baselineArrowTop; });
+      arrowButtons.forEach(btn => { btn.style.top = baselineArrowTop; });
     }
 
     pages.forEach((page, index) => {
       const image = document.createElement('img');
       image.src = config.srcFor(page);
-      image.alt = `${volume === 'haircuts' ? 'Haircuts; various forms' : 'fluid N°' + volume}, page ${index + 1}`;
+      image.alt = `${volume === 'haircuts' ? 'Haircuts; various forms' : 'fluid ' + ({ 1: "'24", 2: "'25" }[volume] || volume)}, page ${index + 1}`;
       image.decoding = 'async';
       image.loading = index < 2 ? 'eager' : 'lazy';
       if (index < 2) image.fetchPriority = 'high';
@@ -143,9 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const images = Array.from(slideshow.querySelectorAll('img'));
     const renderControls = () => {
-      count.textContent = `${requestedIndex + 1} / ${images.length}`;
-      previous.disabled = images.length <= 1;
-      next.disabled = images.length <= 1;
+      if (count) count.textContent = `${requestedIndex + 1} / ${images.length}`;
+      arrowButtons.forEach(btn => { btn.disabled = images.length <= 1; });
     };
     const setCoverPosition = isRevealed => {
       viewer.classList.toggle('is-revealed', isRevealed);
@@ -157,10 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // to fit), size the frame to each page's own ratio at a constant width:
     // landscape pages stay wide and short, portrait pages stay full-width and
     // grow taller, and nothing gets cropped.
-    const fitsToImage = volume === 'haircuts';
+    const video = videoConfig[volume];
+    const fitsToImage = Boolean(video);
     const applyFrameHeight = image => {
-      if (!fitsToImage || !image.naturalWidth) return;
-      const width = viewer.clientWidth;
+      if (!image.naturalWidth) return;
+      const width = slideshow.clientWidth;
       viewer.style.height = `${width * (image.naturalHeight / image.naturalWidth)}px`;
     };
 
@@ -172,9 +181,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let videoMuted = true;
     const videoTilesEl = viewer.querySelector('.video-tiles');
     const unmuteBtn = viewer.querySelector('.video-unmute-btn');
-    const VIDEO_SRC = 'srcs/video/haircuts.mp4';
-    const VIDEO_POSTER = 'srcs/video/haircuts-poster.jpg';
-    const VIDEO_ASPECT = 1734 / 1440;
+    // Safari clips a fixed-position descendant to the bounds of any
+    // ancestor with overflow:hidden (here: .book-viewer > .img >
+    // .cover-container > .card-reduced > .strip > .wrap), leaving a gap
+    // down the left edge of the fullscreen video. Chrome ignores that
+    // ancestor chain for fixed elements, so it never showed the bug.
+    // Re-parenting to <body> removes every clipping ancestor.
+    if (videoTilesEl) document.body.appendChild(videoTilesEl);
+    if (unmuteBtn) document.body.appendChild(unmuteBtn);
+    const VIDEO_SRC = video?.src;
+    const VIDEO_POSTER = video?.poster;
+    const VIDEO_ASPECT = video?.aspect || 1;
 
     const buildVideoTiles = () => {
       if (!videoTilesEl) return;
@@ -197,6 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
         el.poster = VIDEO_POSTER;
         el.setAttribute('aria-hidden', 'true');
         el.src = VIDEO_SRC;
+        // A play() issued before enough data arrives can be dropped; retry once playable.
+        el.addEventListener('canplay', () => { if (inVideoMode && el.paused) el.play().catch(() => {}); });
         videoTilesEl.appendChild(el);
         videoTileEls.push(el);
         if (inVideoMode) el.play().catch(() => {});
@@ -212,11 +231,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const enterVideoMode = () => {
       inVideoMode = true;
       document.body.classList.add('video-active');
+      // The arrows only render at full opacity once .is-revealed is set (see
+      // .book-viewer.is-revealed .slide-arrow); without it they'd stay
+      // invisible in video mode since the video tiles sit on top and swallow
+      // the hover that would otherwise reveal them.
+      viewer.classList.add('is-revealed');
       // The arrows' baseline top is pinned to the small book frame; in video
       // mode they should sit at the vertical center of the full viewport
       // instead (handled by the body.video-active CSS), so clear the inline
       // override.
-      [previous, next].forEach(btn => { btn.style.top = ''; });
+      arrowButtons.forEach(btn => { btn.style.top = ''; });
       buildVideoTiles();
       videoTileEls.forEach(el => { el.currentTime = 0; el.play().catch(() => {}); });
     };
@@ -224,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
       inVideoMode = false;
       document.body.classList.remove('video-active');
       if (baselineArrowTop) {
-        [previous, next].forEach(btn => { btn.style.top = baselineArrowTop; });
+        arrowButtons.forEach(btn => { btn.style.top = baselineArrowTop; });
       }
       videoTileEls.forEach(el => el.pause());
     };
@@ -260,8 +284,10 @@ document.addEventListener('DOMContentLoaded', () => {
       images[targetIndex + 1]?.decode?.().catch(() => {});
     };
     const changeSlide = direction => {
+      if (!images.length) return;
       if (fitsToImage && inVideoMode) {
         exitVideoMode();
+        reveal();
         requestedIndex = direction === 1 ? 0 : images.length - 1;
         renderControls();
         showRequestedSlide();
@@ -288,10 +314,17 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     renderControls();
-    reveal();
-    showRequestedSlide();
-    previous.addEventListener('click', () => changeSlide(-1));
-    next.addEventListener('click', () => changeSlide(1));
+    if (fitsToImage) {
+      // Haircuts opens straight into the video finale instead of a book
+      // photo; arrows step forward into the cover, then pages, then the
+      // back cover, then loop back to the video.
+      enterVideoMode();
+    } else {
+      reveal();
+      showRequestedSlide();
+    }
+    previous?.addEventListener('click', () => changeSlide(-1));
+    next?.addEventListener('click', () => changeSlide(1));
 
     viewer.addEventListener('keydown', event => {
       if (event.key === 'ArrowLeft') { event.preventDefault(); changeSlide(-1); }
@@ -329,6 +362,27 @@ document.addEventListener('DOMContentLoaded', () => {
       changeSlide(dx < 0 ? 1 : -1);
     });
   });
+
+  /* ── prev/next text cursor over the viewer halves ── */
+  const arrows = document.querySelectorAll('.slide-arrow');
+  if (arrows.length && window.matchMedia('(hover: hover)').matches) {
+    const textCursor = document.createElement('div');
+    textCursor.className = 'text-cursor';
+    textCursor.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(textCursor);
+    arrows.forEach(arrow => {
+      const label = arrow.classList.contains('slide-arrow-prev') ? 'prev' : 'next';
+      arrow.addEventListener('pointerenter', () => {
+        textCursor.textContent = label;
+        textCursor.classList.add('is-visible');
+      });
+      arrow.addEventListener('pointerleave', () => textCursor.classList.remove('is-visible'));
+    });
+    window.addEventListener('pointermove', e => {
+      textCursor.style.left = `${e.clientX}px`;
+      textCursor.style.top = `${e.clientY}px`;
+    }, { passive: true });
+  }
 
   /* ── Currency toggle (KRW / EUR) ──
      Lives as one more line in the footer nav instead of its own floating
