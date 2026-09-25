@@ -515,7 +515,7 @@ a.grid-item .grid-meta {
     left: auto !important;
     bottom: auto !important;
     top: auto !important;
-    margin-top: 120px !important;
+    margin-top: 204px !important;
     padding: 0 0 calc(60px + env(safe-area-inset-bottom)) 24px !important;
     order: 3;
   }
@@ -766,3 +766,6 @@ html.ios-bleed { scroll-snap-type: y proximity; }
 .bleed-anchor { position: absolute; left: 0; width: 1px; height: 1px; pointer-events: none; }
 .bleed-anchor-top { top: var(--bleed); scroll-snap-align: start; }
 .bleed-anchor-bottom { bottom: var(--bleed); scroll-snap-align: end; }
+/* The bleed makes the scroll indicator suggest more page beyond the ends. */
+html.ios-bleed { scrollbar-width: none; }
+html.ios-bleed::-webkit-scrollbar, html.ios-bleed body::-webkit-scrollbar { display: none; width: 0; height: 0; }

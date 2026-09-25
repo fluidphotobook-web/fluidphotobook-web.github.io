@@ -209,7 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
         : Math.max(1, Math.ceil(window.innerWidth / (window.innerHeight * VIDEO_ASPECT)));
       while (videoTileEls.length < needed) {
         const el = document.createElement('video');
-        el.muted = videoMuted;
+        // Only the first tile ever carries sound; the rest are visual copies.
+        el.muted = videoTileEls.length === 0 ? videoMuted : true;
         el.defaultMuted = true;
         el.loop = true;
         el.autoplay = true;
@@ -336,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fitsToImage && unmuteBtn) {
       unmuteBtn.addEventListener('click', () => {
         videoMuted = !videoMuted;
-        videoTileEls.forEach(el => { el.muted = videoMuted; });
+        videoTileEls.forEach((el, i) => { el.muted = i === 0 ? videoMuted : true; });
         unmuteBtn.textContent = videoMuted ? 'Unmute' : 'Mute';
       });
       window.addEventListener('resize', handleResize);
