@@ -515,7 +515,7 @@ a.grid-item .grid-meta {
     left: auto !important;
     bottom: auto !important;
     top: auto !important;
-    margin-top: 60px !important;
+    margin-top: 120px !important;
     padding: 0 0 calc(60px + env(safe-area-inset-bottom)) 24px !important;
     order: 3;
   }
@@ -726,4 +726,18 @@ div.grid-item .grid-price { color: var(--gray50); }
     min-height: 100lvh;
     background: transparent;
   }
+}
+
+/* No rubber-band past the top/bottom: scrolling stops with the logo and
+   footer in their resting positions instead of revealing the page colour. */
+html, body { overscroll-behavior: none; }
+html:has(body.video-active) { background: #000; }
+
+/* Seamless video tiles: neighbouring tiles overlap by a pixel so sub-pixel
+   rounding never opens a hairline between them. */
+.video-tiles video { margin: 0 -1px 0 0; }
+.video-tiles { background: #000; }
+@media (max-width: 600px) {
+  .video-tiles video { margin: 0 0 -1px 0; width: 100vw; }
+  body.video-active .video-tiles { background: #000; }
 }
