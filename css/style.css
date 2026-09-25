@@ -466,7 +466,7 @@ a.grid-item .grid-meta {
   /* The script logo's swashes sit right at the glyph edges, so the dotted
      underline (meant for a plain text link) just reads as clutter here, and
      a couple of pixels of padding keeps the tails from touching the edge. */
-  #logo { position: fixed; top: 24px; left: 24px; font-size: 16px; z-index: 2000; text-decoration: none; padding: 0 3px; margin-left: -3px; }
+  #logo { position: fixed; top: 24px; left: 24px; font-size: 32px; z-index: 2000; text-decoration: none; padding: 0.25em 0.3em; margin: -0.25em 0 0 -0.3em; }
   
   /* Landing State (index-body without .is-works) */
   #index-body:not(.is-works):not(.show-monographs) .strip { display: none !important; }
@@ -537,7 +537,7 @@ a.grid-item .grid-meta {
   /* The generic 120px top padding leaves a big gap above the cover image;
      detail pages don't have the landing page's centered logo/menu to clear,
      so tighten it to just enough room to clear the fixed logo. */
-  #detail-body .strip { padding-top: 64px; }
+  #detail-body .strip { padding-top: 84px; }
 
   .cover-container { flex-direction: column !important; align-items: flex-start !important; }
   /* Break the cover image out of the strip's 24px side padding so it always
@@ -689,3 +689,12 @@ a.grid-item .grid-meta {
 /* Unlinked (N/A) grid slots read as inactive. */
 div.grid-item .grid-title,
 div.grid-item .grid-price { color: var(--gray50); }
+
+/* Mobile: the nav lives outside .wrap, so reorder at the body level to keep
+   the footer after the content (fixed-position children are unaffected). */
+@media (max-width: 600px) {
+  body { display: flex; flex-direction: column; min-height: 100dvh; }
+  body > * { order: 2; }
+  body > .menu { order: 3; }
+  body > .scroll-spacer { order: 4; display: none; }
+}
