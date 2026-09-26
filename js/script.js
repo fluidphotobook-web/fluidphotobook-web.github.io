@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const videoConfig = {
     haircuts: { src: 'srcs/video/haircuts.mp4', poster: 'srcs/video/haircuts-poster.jpg', aspect: 1734 / 1440 },
-    leo: { src: 'srcs/video/leo.mp4', poster: 'srcs/video/leo-poster.jpg', aspect: 2400 / 3200 },
+    leo: { src: 'srcs/video/leo.mp4?v=2', poster: 'srcs/video/leo-poster.jpg?v=2', aspect: 2400 / 3200 },
     sihun: { src: 'srcs/video/sihun.mp4?v=2', poster: 'srcs/video/sihun-poster.jpg?v=2', aspect: 2900 / 2048 }
   };
 
