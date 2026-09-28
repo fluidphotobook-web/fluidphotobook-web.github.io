@@ -45,8 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ── monographs 뷰 토글 로직 ── */
-  // 'zines' is withheld until release; add it back here to re-enable ?view=zines.
-  const GRID_VIEWS = ['monographs'];
+  const GRID_VIEWS = ['monographs', 'zines'];
   const applyView = view => {
     const isGrid = GRID_VIEWS.includes(view);
     document.body.classList.toggle('show-monographs', isGrid);
@@ -109,13 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ? `srcs/img/others/haircuts_inner_${page}.jpg`
         : `srcs/img/others/haircuts_${page}.jpg`
     },
-    leo: { pages: [], srcFor: () => '' },
     sihun: { pages: [], srcFor: () => '' }
   };
 
   const videoConfig = {
     haircuts: { src: 'srcs/video/haircuts.mp4', poster: 'srcs/video/haircuts-poster.jpg', aspect: 1734 / 1440 },
-    leo: { src: 'srcs/video/leo.mp4?v=2', poster: 'srcs/video/leo-poster.jpg?v=2', aspect: 2400 / 3200 },
     sihun: { src: 'srcs/video/sihun.mp4?v=2', poster: 'srcs/video/sihun-poster.jpg?v=2', aspect: 2900 / 2048 }
   };
 
