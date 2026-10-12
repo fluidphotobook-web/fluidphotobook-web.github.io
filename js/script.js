@@ -108,11 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
         ? `srcs/img/others/haircuts_inner_${page}.jpg`
         : `srcs/img/others/haircuts_${page}.jpg`
     },
-    sihun: { pages: [], srcFor: () => '' }
+    leo: {
+      pages: ['cover', 1, 2, 3, 4, 5, 6, 7, 8],
+      srcFor: page => `srcs/img/zines/leo_${page}.jpg`
+    },
+    sihun: {
+      pages: ['cover', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      srcFor: page => `srcs/img/zines/sihun_${page}.jpg`
+    }
   };
 
   const videoConfig = {
     haircuts: { src: 'srcs/video/haircuts.mp4', poster: 'srcs/video/haircuts-poster.jpg', aspect: 1734 / 1440 },
+    leo: { src: 'srcs/video/leo.mp4?v=2', poster: 'srcs/video/leo-poster.jpg?v=2', aspect: 2400 / 3200 },
     sihun: { src: 'srcs/video/sihun.mp4?v=2', poster: 'srcs/video/sihun-poster.jpg?v=2', aspect: 2900 / 2048 }
   };
 
@@ -140,7 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
     pages.forEach((page, index) => {
       const image = document.createElement('img');
       image.src = config.srcFor(page);
-      image.alt = `${volume === 'haircuts' ? 'Haircuts; various forms' : 'fluid ' + ({ 1: "'24", 2: "'25" }[volume] || volume)}, page ${index + 1}`;
+      const titles = { haircuts: 'Haircuts; various forms', leo: 'Leo', sihun: 'Sihun', 1: "fluid '24", 2: "fluid '25" };
+      image.alt = `${titles[volume] || volume}, page ${index + 1}`;
       image.decoding = 'async';
       image.loading = index < 2 ? 'eager' : 'lazy';
       if (index < 2) image.fetchPriority = 'high';
