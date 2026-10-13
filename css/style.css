@@ -851,3 +851,23 @@ html.ios-bleed::-webkit-scrollbar, html.ios-bleed body::-webkit-scrollbar { disp
   }
   #request-modal form > div > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
 }
+
+@media (max-width: 600px) {
+  /* Quick repeated taps on the page halves should flip pages, not trigger
+     Safari's double-tap zoom. Pinch zoom still works. */
+  html, body, #detail-body .book-viewer, #detail-body .slide-arrow { touch-action: manipulation; }
+
+  /* Video view on phones: a single, non-scrolling screen. */
+  html.video-lock, html.video-lock body {
+    overflow: hidden !important; height: 100% !important; overscroll-behavior: none;
+  }
+  html.video-lock #detail-body .meta button#request-btn,
+  html.video-lock body#detail-body .menu { display: none !important; }
+  html.video-lock #detail-body .meta {
+    position: fixed !important;
+    left: 24px !important; right: 24px !important; width: auto !important;
+    bottom: calc(28px + env(safe-area-inset-bottom)) !important;
+    margin: 0 !important; z-index: 2150; pointer-events: none;
+  }
+  html.video-lock #detail-body .meta p { margin-bottom: 0 !important; }
+}

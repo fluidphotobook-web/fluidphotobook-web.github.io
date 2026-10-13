@@ -322,7 +322,15 @@ document.addEventListener('DOMContentLoaded', () => {
       inVideoMode = true;
       // Bottom rubber-band shows the root background: tile the poster there.
       startBarTint();
-      startBleed();
+      // Phones: the video view is one fixed screen (details on top of the
+      // footage, no Request, no footer), so lock scrolling instead of the
+      // scroll-bleed trick.
+      if (isPhone()) {
+        document.documentElement.classList.add('video-lock');
+        window.scrollTo(0, 0);
+      } else {
+        startBleed();
+      }
       document.body.classList.add('video-active');
       // The arrows only render at full opacity once .is-revealed is set (see
       // .book-viewer.is-revealed .slide-arrow); without it they'd stay
@@ -339,6 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const exitVideoMode = () => {
       inVideoMode = false;
+      document.documentElement.classList.remove('video-lock');
       stopBarTint();
       stopBleed();
       document.body.classList.remove('video-active');
