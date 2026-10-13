@@ -118,11 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Phones get a lighter encode (mobileSrc): the full-size files are
+  // 30-50MB, which left the page black for seconds on a phone connection.
   const videoConfig = {
-    haircuts: { src: 'srcs/video/haircuts.mp4', poster: 'srcs/video/haircuts-poster.jpg', aspect: 1734 / 1440 },
-    leo: { src: 'srcs/video/leo.mp4?v=2', poster: 'srcs/video/leo-poster.jpg?v=2', aspect: 2400 / 3200 },
-    sihun: { src: 'srcs/video/sihun.mp4?v=2', poster: 'srcs/video/sihun-poster.jpg?v=2', aspect: 2900 / 2048 }
+    haircuts: { src: 'srcs/video/haircuts.mp4', mobileSrc: 'srcs/video/haircuts-m.mp4', poster: 'srcs/video/haircuts-poster.jpg', aspect: 1734 / 1440 },
+    leo: { src: 'srcs/video/leo.mp4?v=2', mobileSrc: 'srcs/video/leo-m.mp4', poster: 'srcs/video/leo-poster.jpg?v=2', aspect: 2400 / 3200 },
+    sihun: { src: 'srcs/video/sihun.mp4?v=2', mobileSrc: 'srcs/video/sihun-m.mp4', poster: 'srcs/video/sihun-poster.jpg?v=2', aspect: 2900 / 2048 }
   };
+  const isPhone = () => window.matchMedia('(max-width: 600px)').matches;
 
   document.querySelectorAll('.book-viewer').forEach(viewer => {
     const volume = viewer.dataset.volume;
@@ -148,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pages.forEach((page, index) => {
       const image = document.createElement('img');
       image.src = config.srcFor(page);
-      const titles = { haircuts: 'Haircuts; various forms', leo: 'Leo in Seoul', sihun: 'Kim Sihun at Silmido', 1: "fluid '24", 2: "fluid '25" };
+      const titles = { haircuts: 'Haircuts; various forms', leo: 'Leo', sihun: 'Kim Sihun', 1: "fluid '24", 2: "fluid '25" };
       image.alt = `${titles[volume] || volume}, page ${index + 1}`;
       image.decoding = 'async';
       image.loading = index < 2 ? 'eager' : 'lazy';
@@ -175,6 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = videoConfig[volume];
     const fitsToImage = Boolean(video);
     const applyFrameHeight = image => {
+      // Phones keep one fixed 4:5 frame (CSS) so the info and Request button
+      // below don't jump up and down between portrait and landscape pages.
+      if (isPhone()) { viewer.style.height = ''; return; }
       if (!image.naturalWidth) return;
       const width = slideshow.clientWidth;
       viewer.style.height = `${width * (image.naturalHeight / image.naturalWidth)}px`;
@@ -196,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Re-parenting to <body> removes every clipping ancestor.
     if (videoTilesEl) document.body.appendChild(videoTilesEl);
     if (unmuteBtn) document.body.appendChild(unmuteBtn);
-    const VIDEO_SRC = video?.src;
+    const VIDEO_SRC = (isPhone() && video?.mobileSrc) || video?.src;
     const VIDEO_POSTER = video?.poster;
     const VIDEO_ASPECT = video?.aspect || 1;
 
@@ -377,6 +383,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (fitsToImage && inVideoMode) {
         exitVideoMode();
         reveal();
+        // On a phone the reader may have scrolled down over the video to the
+        // details; bring the page they just swiped to back into view.
+        if (isPhone()) {
+          const logoClear = 72;
+          const top = viewer.getBoundingClientRect().top + window.scrollY - logoClear;
+          if (Math.abs(window.scrollY - top) > 8) window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        }
         requestedIndex = direction === 1 ? 0 : images.length - 1;
         renderControls();
         showRequestedSlide();

@@ -5,9 +5,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Kim Sihun at Silmido — fluid zines</title>
-  <meta name="description" content="Kim Sihun at Silmido — A zine by fluid." />
-  <link rel="stylesheet" href="css/style.css?v=20261013b" />
+  <title>Kim Sihun — fluid zines</title>
+  <meta name="description" content="Kim Sihun — A zine by fluid." />
+  <link rel="stylesheet" href="css/style.css?v=20261013c" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <style>
     #request-modal {
@@ -92,7 +92,7 @@
     <section class="strip" id="issues" aria-label="Issues">
       <article class="card card-reduced">
         <div class="cover-container">
-          <div class="img book-viewer" data-volume="sihun" aria-label="Kim Sihun at Silmido interior slideshow">
+          <div class="img book-viewer" data-volume="sihun" aria-label="Kim Sihun interior slideshow">
             <div class="interior-slideshow" aria-live="polite"></div>
             <div class="cover-sheets" aria-hidden="true">
               <img class="cover-front" src="srcs/img/zines/sihun_cover_1.jpg" alt="" />
@@ -105,7 +105,7 @@
             <button class="video-unmute-btn" type="button">Unmute</button>
           </div>
           <div class="meta">
-            <a href="sihun.html" class="meta-link"><span class="meta-1"><span class="meta-title">Kim Sihun at Silmido</span><br />2026</span></a>
+            <a href="sihun.html" class="meta-link"><span class="meta-1"><span class="meta-title">Kim Sihun</span><br />2026</span></a>
 
             <div style="margin-top: 20px; width: 100%; padding-top: 10px; font-family: Baskerville, ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif; font-size: 12px; line-height: 1.8;">
               <div style="display: flex; justify-content: space-between; padding-bottom: 2px; margin-bottom: 4px;">
@@ -143,14 +143,14 @@
     style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.98); z-index: 20000; justify-content: center; align-items: flex-start; overflow-y: auto; padding: 60px 0;">
     <div
       style="width: 90%; max-width: 480px; padding: 40px; border: 1px solid #000; background: #fff; position: relative; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-      <button id="close-modal-btn"
+      <button id="close-modal-btn" type="button" aria-label="Close"
         style="position: absolute; right: 20px; top: 20px; cursor: pointer; background: none; border: none; font-size: 24px; line-height: 1; opacity: 0.5;">&times;</button>
 
       <!-- Step 1: Input Form -->
       <div id="step-form">
         <div style="text-align: center; margin-bottom: 35px; padding-bottom: 28px;">
           <h2 style="font-size: 24px; margin: 0; font-weight: normal; letter-spacing: 0.02em;">Request</h2>
-          <p style="font-size: 13px; margin: 10px 0 0 0; opacity: 0.6;">Kim Sihun at Silmido</p>
+          <p style="font-size: 13px; margin: 10px 0 0 0; opacity: 0.6;">Kim Sihun</p>
         </div>
 
         <form id="request-form"
@@ -159,9 +159,9 @@
           <div>
             <div class="form-group-title">Personal Information</div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%;">
-              <input type="text" id="req-name" placeholder="Name" required
+              <input type="text" id="req-name" autocomplete="given-name" autocapitalize="words" placeholder="Name" required
                 style="width: 100%; font-family: inherit; box-sizing: border-box;" />
-              <input type="text" id="req-surname" placeholder="Surname" required
+              <input type="text" id="req-surname" autocomplete="family-name" autocapitalize="words" placeholder="Surname" required
                 style="width: 100%; font-family: inherit; box-sizing: border-box;" />
             </div>
           </div>
@@ -170,14 +170,14 @@
             <div class="form-group-title">Contact &amp; Location</div>
             <div style="display: flex; flex-direction: column; gap: 10px;">
               <div style="display: grid; grid-template-columns: 110px 1fr; gap: 10px; width: 100%;">
-                <select id="req-country-code" required
+                <select id="req-country-code" autocomplete="tel-country-code" required
                   style="width: 100%; font-family: inherit; box-sizing: border-box;">
                   <!-- Populated by script -->
                 </select>
-                <input type="tel" id="req-phone" placeholder="Phone Number" required
+                <input type="tel" id="req-phone" autocomplete="tel-national" inputmode="tel" placeholder="Phone Number" required
                   style="width: 100%; font-family: inherit; box-sizing: border-box;" />
               </div>
-              <input type="email" id="req-email" placeholder="E-Mail Address" required
+              <input type="email" id="req-email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="E-Mail Address" required
                 style="width: 100%; font-family: inherit; box-sizing: border-box;" />
             </div>
           </div>
@@ -185,14 +185,14 @@
           <div>
             <div class="form-group-title">Shipping Details</div>
             <div style="display: flex; flex-direction: column; gap: 10px;">
-              <select id="req-country" required style="width: 100%; font-family: inherit; box-sizing: border-box;">
+              <select id="req-country" autocomplete="country-name" required style="width: 100%; font-family: inherit; box-sizing: border-box;">
                 <option value="" disabled selected>Select Shipping Country</option>
                 <!-- Populated by script -->
               </select>
               <div style="display: grid; grid-template-columns: 1fr 110px; gap: 10px; width: 100%;">
-                <input type="text" id="req-address" placeholder="Full Address" required
+                <input type="text" id="req-address" autocomplete="street-address" placeholder="Full Address" required
                   style="width: 100%; font-family: inherit; box-sizing: border-box;" />
-                <input type="text" id="req-zip" placeholder="Zip Code" required
+                <input type="text" id="req-zip" autocomplete="postal-code" placeholder="Zip Code" required
                   style="width: 100%; font-family: inherit; box-sizing: border-box;" />
               </div>
             </div>
@@ -200,7 +200,7 @@
 
           <div>
             <div class="form-group-title">Quantity</div>
-            <input type="number" id="req-qty" placeholder="1" min="1" value="1" required
+            <input type="number" id="req-qty" inputmode="numeric" placeholder="1" min="1" value="1" required
               style="width: 100%; font-family: inherit; box-sizing: border-box;" />
           </div>
 
@@ -236,10 +236,18 @@
             Request</button>
         </div>
       </div>
+
+      <!-- Step 3: Done -->
+      <div id="step-done" style="display: none; text-align: center;">
+        <h2 style="font-size: 22px; margin: 0; font-weight: normal;" id="done-title">Request received</h2>
+        <p style="font-size: 14px; margin: 14px 0 32px 0; opacity: 0.7; line-height: 1.6;" id="done-text">Thank you. We'll email you an invoice once production begins.</p>
+        <button type="button" id="done-close-btn" class="baskerville"
+          style="width: 100%; padding: 14px; cursor: pointer; background: #000; color: #fff; border: none; font-size: 15px; letter-spacing: 0.05em;">Close</button>
+      </div>
     </div>
   </div>
 
-  <script defer src="js/script.js?v=20261013b"></script>
+  <script defer src="js/script.js?v=20261013c"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const countries = [
@@ -365,6 +373,11 @@
           modal.style.display = 'flex';
           stepForm.style.display = 'block';
           stepConfirm.style.display = 'none';
+          document.getElementById('step-done').style.display = 'none';
+        });
+
+        document.getElementById('done-close-btn').addEventListener('click', () => {
+          modal.style.display = 'none';
         });
 
         closeBtn.addEventListener('click', () => {
@@ -431,19 +444,24 @@
           formData.append('country', country);
           formData.append('address', addressWithZip);
           formData.append('qty', document.getElementById('req-qty').value);
-          formData.append('project', 'Kim Sihun at Silmido');
+          formData.append('project', 'Kim Sihun');
 
           const scriptURL = 'https://script.google.com/macros/s/AKfycbysaUx_F9DYTUDi9mu5tt0Vs-RnSL1x_mBvgN6ymLKMCuGD0ifPNq8FrvUtKVPtZgh_/exec';
 
           fetch(scriptURL, { method: 'POST', body: formData })
             .then(response => {
-              alert('Your request has been successfully submitted.\n\nThank you!');
-              modal.style.display = 'none';
               form.reset();
+              stepConfirm.style.display = 'none';
+              document.getElementById('done-title').textContent = 'Request received';
+              document.getElementById('done-text').textContent = "Thank you. We'll email you an invoice once production begins.";
+              document.getElementById('step-done').style.display = 'block';
             })
             .catch(error => {
               console.error('Error!', error.message);
-              alert('An error occurred while submitting your request. Please try again later.');
+              stepConfirm.style.display = 'none';
+              document.getElementById('done-title').textContent = 'Something went wrong';
+              document.getElementById('done-text').textContent = 'Your request could not be sent. Please try again in a moment.';
+              document.getElementById('step-done').style.display = 'block';
             })
             .finally(() => {
               submitBtn.innerText = originalBtnText;

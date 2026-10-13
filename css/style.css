@@ -99,8 +99,12 @@ body::-webkit-scrollbar { display: none; }
 .meta-title:hover { border-bottom: 1px dotted var(--black); cursor: pointer; }
 .cover-container span, .cover-container span em { color: var(--black); z-index: 10; }
 .card .cover-back { opacity: 0; }
-.img:hover .cover-front { opacity: 0; cursor: pointer; }
-.img:hover .cover-back { opacity: 1; cursor: pointer; }
+/* Hover swaps only where there is a real pointer: on iOS a hover rule turns
+   the first tap into a hover, so links needed two taps to open. */
+@media (hover: hover) {
+  .img:hover .cover-front { opacity: 0; cursor: pointer; }
+  .img:hover .cover-back { opacity: 1; cursor: pointer; }
+}
 
 /* --- Issue interior viewer --- */
 #detail-body .book-viewer {
@@ -438,12 +442,14 @@ a.grid-item .grid-meta {
   opacity: 0;
 }
 
+@media (hover: hover) {
 .grid-item:hover .grid-img-cover {
   opacity: 0;
 }
 
 .grid-item:hover .grid-img-inner {
   opacity: 1;
+}
 }
 
 @media (max-width: 1024px) {
@@ -769,3 +775,79 @@ html.ios-bleed { scroll-snap-type: y proximity; }
 /* The bleed makes the scroll indicator suggest more page beyond the ends. */
 html.ios-bleed { scrollbar-width: none; }
 html.ios-bleed::-webkit-scrollbar, html.ios-bleed body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+
+/* ============================================
+   MOBILE UX PASS (2026-10)
+   ============================================ */
+@media (max-width: 600px) {
+  /* 13. Empty "N/A" placeholders only padded the grid out on a phone. */
+  .monographs-grid > .grid-item:not(a) { display: none !important; }
+
+  /* 8. One fixed frame for every page; pages fit inside it. */
+  #detail-body .book-viewer { height: auto !important; aspect-ratio: 4 / 5; overflow: hidden !important; }
+  #detail-body .book-viewer .interior-slideshow img { object-position: center center; }
+
+  /* 7. Page counter, so the viewer reads as swipeable. */
+  #detail-body .book-viewer .slide-count {
+    display: block !important; opacity: 1 !important;
+    right: 12px; bottom: 12px; padding: 4px 9px;
+    font-size: 12px; letter-spacing: 0.04em;
+    background: rgba(255,255,255,.88); border-radius: 999px;
+  }
+  #detail-body.video-active .book-viewer .slide-count { display: none !important; }
+
+  /* 9. Readable detail text. */
+  #detail-body .meta,
+  #detail-body .meta span,
+  #detail-body .meta p,
+  #detail-body .meta div { font-size: 15px !important; line-height: 1.6 !important; }
+  #detail-body .meta .meta-title { font-size: 17px !important; }
+  #detail-body .meta span[style*="opacity: 0.5"] { opacity: 0.6 !important; }
+  #detail-body .meta p { opacity: 0.85 !important; }
+
+  /* 10. Request as a full-width, thumb-reach button pinned above the
+     Safari toolbar. */
+  #detail-body .meta button#request-btn {
+    position: fixed; left: 16px; right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 6000; width: auto; min-height: 50px; margin: 0 !important;
+    background: #000 !important; color: #fff !important; border: 0 !important;
+    font-size: 16px !important; letter-spacing: 0.04em;
+  }
+  body.video-active#detail-body .meta button#request-btn { background: #fff !important; color: #000 !important; }
+  .currency-toggle { font-size: 14px; gap: 2px; margin-bottom: 12px !important; }
+  .currency-option { padding: 12px 8px; margin: -12px 0; }
+  .currency-option:first-child { padding-left: 0; }
+
+  /* 16. Tighter gap before the footer; room at the end for the pinned
+     Request button. */
+  body#detail-body .menu {
+    z-index: 1 !important; /* below .wrap, so the pinned Request button stays tappable */
+    margin-top: 96px !important;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* 3 + 12. Request form as a full-screen sheet, inputs at 16px so iOS
+     doesn't zoom in on focus. */
+  #request-modal { padding: 0 !important; align-items: stretch !important; background: #fff !important; }
+  #request-modal > div {
+    width: 100% !important; max-width: none !important; min-height: 100dvh;
+    border: 0 !important; box-shadow: none !important;
+    padding: calc(64px + env(safe-area-inset-top)) 20px calc(32px + env(safe-area-inset-bottom)) !important;
+  }
+  #request-modal input,
+  #request-modal select { font-size: 16px !important; min-height: 48px; }
+  #request-modal button { min-height: 48px; font-size: 16px !important; }
+  #request-modal #close-modal-btn {
+    position: fixed !important; top: calc(8px + env(safe-area-inset-top)) !important; right: 8px !important;
+    width: 44px; height: 44px; min-height: 44px; display: grid; place-items: center;
+    color: #000 !important; opacity: 1 !important; font-size: 28px !important; z-index: 2;
+  }
+  #request-modal select {
+    -webkit-appearance: none; appearance: none; color: #000;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right 14px center;
+    padding-right: 36px !important;
+  }
+  #request-modal form > div > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+}
