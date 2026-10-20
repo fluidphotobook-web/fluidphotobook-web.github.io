@@ -446,10 +446,15 @@
           formData.append('qty', document.getElementById('req-qty').value);
           formData.append('project', 'Kim Sihun');
 
-          const scriptURL = 'https://script.google.com/macros/s/AKfycbysaUx_F9DYTUDi9mu5tt0Vs-RnSL1x_mBvgN6ymLKMCuGD0ifPNq8FrvUtKVPtZgh_/exec';
+          const scriptURL = 'https://script.google.com/macros/s/AKfycbzJ1bRF1WWA0rlqkmBJVCl68TCAGXjoHAr8Yw9PIX7XRouNZF3lA8S2tAHk2w9Vwf3fkA/exec';
 
           fetch(scriptURL, { method: 'POST', body: formData })
             .then(response => {
+              if (!response.ok) throw new Error('HTTP ' + response.status);
+              return response.json();
+            })
+            .then(result => {
+              if (!result || !result.ok) throw new Error((result && result.error) || 'Request not recorded');
               form.reset();
               stepConfirm.style.display = 'none';
               document.getElementById('done-title').textContent = 'Request received';
@@ -460,7 +465,7 @@
               console.error('Error!', error.message);
               stepConfirm.style.display = 'none';
               document.getElementById('done-title').textContent = 'Something went wrong';
-              document.getElementById('done-text').textContent = 'Your request could not be sent. Please try again in a moment.';
+              document.getElementById('done-text').textContent = 'Your request could not be sent. Please try again, or email info@kangminje.com.';
               document.getElementById('step-done').style.display = 'block';
             })
             .finally(() => {
